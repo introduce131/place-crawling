@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 4. 전체 코드 복사
 COPY . .
 
+# ++ Playwright 브라우저 설치 (필수)
+RUN playwright install
+
 # 5. 포트 개방
 EXPOSE 8000
 
