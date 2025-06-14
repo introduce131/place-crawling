@@ -103,7 +103,7 @@ def image_menu(place_id: str = Query(...)):
     url = f"https://map.naver.com/p/entry/place/{place_id}"
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
         page = browser.new_page(viewport={"width": 1280, "height": 800})
         page.goto(url)
         page.wait_for_timeout(1000)
