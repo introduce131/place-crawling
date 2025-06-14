@@ -2,7 +2,8 @@ from fastapi import FastAPI, Query
 from typing import Dict, List, Optional
 import requests
 import re
-from playwright.sync_api import sync_playwright
+import urllib.parse
+import json
 
 app = FastAPI()
 
@@ -25,6 +26,27 @@ def parse_menu_to_dict(menu_info: Optional[str]) -> List[Dict[str, str]]:
             price = ""
         menu_list.append({"name": name, "price": price})
     return menu_list
+
+# -------------------------------
+# 유틸: 문자열 인코딩 복원
+# -------------------------------
+def fix_encoding(s: str) -> str:
+    try:
+        return s.encode('latin1').decode('utf-8')
+    except:
+        return s
+
+def clean_image_url(img_url: str) -> str:
+    try:
+        fixed = fix_encoding(img_url)
+        parts = fixed.rsplit("/", 1)
+        if len(parts) == 2:
+            base, filename = parts
+            encoded_filename = urllib.parse.quote(filename)
+            return f"{base}/{encoded_filename}"
+        return fixed
+    except:
+        return img_url
 
 
 # -------------------------------
@@ -94,94 +116,56 @@ def search_places(
 
     except KeyError as e:
         return {"error": "'list' 항목이 없습니다", "detail": str(e)}
-
+    
 # -------------------------------
-# IMAGE API
+# 메뉴 API (스크립트 기반)
 # -------------------------------
-@app.get("/image")
-def image_menu(place_id: str = Query(...)):
-    url = f"https://map.naver.com/p/entry/place/{place_id}"
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
-        page = browser.new_page(viewport={"width": 1280, "height": 800})
-        page.goto(url)
-        page.wait_for_timeout(1000)
-
-        page.wait_for_selector("iframe#entryIframe", timeout=5000)
-        entry_frame = page.frame(name="entryIframe") or page.frames[1]
-
-        # 메뉴 탭 진입
-        try:
-            menu_btn = entry_frame.wait_for_selector(
-                "//a[span[contains(@class, 'veBoZ') and contains(text(), '메뉴')]]",
-                timeout=2000
-            )
-            menu_btn.click()
-        except:
-            pass
-
-        # 더보기 반복 클릭
-        prev_count = -1
-        while True:
-            try:
-                current_menu_items = entry_frame.query_selector_all("li.E2jtL")
-                current_count = len(current_menu_items)
-
-                more_btn = entry_frame.query_selector(
-                    "//a[contains(@class, 'fvwqf')][.//span[contains(@class, 'TeItc') and contains(text(), '더보기')]]"
-                )
-
-                if more_btn and more_btn.is_visible():
-                    if current_count == prev_count:
-                        break
-                    more_btn.click()
-                    entry_frame.wait_for_timeout(5)
-                    prev_count = current_count
-                else:
-                    break
-            except:
-                break
-
-        # 메뉴 항목 이미지
-        menus = []
-        try:
-            entry_frame.wait_for_selector("li.E2jtL", timeout=3000)
-            for menu in entry_frame.query_selector_all("li.E2jtL"):
-                try:
-                    name = menu.query_selector("a.xPf1B .lPzHi")
-                    desc = menu.query_selector("a.xPf1B .kPogF")
-                    price = menu.query_selector("a.xPf1B .GXS1X em")
-                    img = menu.query_selector("a.xPf1B .place_thumb img")
-
-                    menus.append({
-                        "name": name.inner_text().strip() if name else "",
-                        "desc": desc.inner_text().strip() if desc else "",
-                        "price": price.inner_text().strip() if price else "",
-                        "image": img.get_attribute("src") if img else ""
-                    })
-                except:
-                    continue
-        except:
-            pass
-
-        # 메뉴판 이미지
-        menu_board_images = []
-        try:
-            entry_frame.wait_for_selector("li.sQTXy", timeout=3000)
-            for li in entry_frame.query_selector_all("li.sQTXy"):
-                try:
-                    img = li.query_selector("div.WKvXd a.place_thumb[role='button'] img.K0PDV")
-                    if img:
-                        src = img.get_attribute("src")
-                        if src:
-                            menu_board_images.append(src)
-                except:
-                    continue
-        except:
-            pass
-
-    return {
-        "menus": menus,
-        "menuBoardImages": menu_board_images
+@app.get("/menu")
+def fetch_menu_from_script(business_id: str = Query(...)) -> List[Dict]:
+    url = f"https://pcmap.place.naver.com/restaurant/{business_id}/menu/list"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/125.0.0.0 Safari/537.36"
+        ),
+        "Referer": f"https://pcmap.place.naver.com/restaurant/{business_id}/menu",
+        "Accept": "*/*",
+        "Accept-Language": "ko-KR,ko;q=0.9",
+        "Connection": "keep-alive"
     }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        return [{"error": f"Failed to fetch: {response.status_code}"}]
+
+    raw_bytes = response.content
+    pattern = rb'"Menu:%b_\d+"\s*:\s*\{.*?\}(?=,|\s*[\r\n]+\s*"|\s*\})' % business_id.encode()
+    matches = re.findall(pattern, raw_bytes, re.DOTALL)
+
+    menu_items = []
+
+    for m in matches:
+        try:
+            text = m.decode("utf-8")
+            text = text.encode().decode("unicode_escape")
+            text = urllib.parse.unquote(text)
+
+            key_value_match = re.match(r'"Menu:[^"]*"\s*:\s*(\{.*\})', text, re.DOTALL)
+            if not key_value_match:
+                continue
+
+            raw_json = key_value_match.group(1)
+            obj = json.loads(raw_json)
+
+            menu_items.append({
+                "name": fix_encoding(obj.get("name", "")),
+                "price": obj.get("price", ""),
+                "description": fix_encoding(obj.get("description", "")),
+                "images": [clean_image_url(img) for img in obj.get("images", [])]
+            })
+
+        except Exception as e:
+            continue
+
+    return menu_items
