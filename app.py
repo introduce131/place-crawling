@@ -169,3 +169,43 @@ def fetch_menu_from_script(business_id: str = Query(...)) -> List[Dict]:
             continue
 
     return menu_items
+
+# -------------------------------
+# 리스트 API
+# -------------------------------
+@app.get("/list")
+def get_place_list(
+    query: str = Query(...),
+    latitude: float = Query(...),
+    longitude: float = Query(...)
+):
+    coord = f"{longitude};{latitude}"
+    url = f"https://map.naver.com/p/api/search/allSearch?query={query}&type=all&searchCoord={coord}"
+
+    headers = {
+        "referer": "https://map.naver.com/",
+        "user-agent": "Mozilla/5.0"
+    }
+
+    res = requests.get(url, headers=headers)
+    if res.status_code != 200:
+        return {"error": "네이버 요청 실패", "status": res.status_code}
+
+    try:
+        raw_places = res.json()["result"]["place"]["list"]
+        result = []
+
+        for place in raw_places:
+            result.append({
+                "id": place.get("id"),
+                "title": place.get("name"),
+                "category": place.get("category"),
+                "thumbnail": place.get("thumUrl"),
+                "reviewCount": place.get("reviewCount"),
+                "distance": place.get("distance")
+            })
+
+        return result
+
+    except KeyError as e:
+        return {"error": "list 항목이 없습니다", "detail": str(e)}
