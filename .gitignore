@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# Test
+.pytest_cache/
+test-*.py
+
+# Virtual Environment
+venv/
+
+# VSCode 설정 (사용한다면)
+.vscode/
