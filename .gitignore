@@ -3,10 +3,12 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 *.log
+*.env
 
 # Test
 .pytest_cache/
 test-*.py
+menu.py
 
 # Virtual Environment
 venv/

@@ -1,0 +1,1354 @@
+[
+    {
+        "timestamp": "2025-07-31 19:42:48",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 19:42:48",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:42:54",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:43:01",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 19:43:01",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 19:43:01",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:38",
+        "message": "서초구 방배동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 19:49:39",
+        "message": "[INFO] 서초구 양재동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 19:49:43",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:43",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:50",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:56",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:56",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 19:49:56",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 19:56:47",
+        "message": "서초구 양재동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 19:56:47",
+        "message": "[INFO] 서초구 우면동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 19:56:52",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 19:56:52",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:56:58",
+        "message": "[INFO] 현재 41개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 19:57:04",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 19:57:04",
+        "message": "[INFO] 총 41개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 19:57:04",
+        "message": "[INFO] 최종적으로 41개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:02:57",
+        "message": "[!] 40번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 20:03:00",
+        "message": "[!] 41번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 20:03:00",
+        "message": "서초구 우면동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:03:00",
+        "message": "[INFO] 서초구 내곡동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:03:05",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:03:06",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:03:12",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:03:18",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:03:18",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:03:18",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:09:57",
+        "message": "서초구 내곡동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:09:57",
+        "message": "[INFO] 성동구 성수동1가 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:10:01",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:10:01",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:10:07",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:10:14",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:10:14",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:10:14",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:39",
+        "message": "성동구 성수동1가 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:18:39",
+        "message": "[INFO] 성동구 성수동2가 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:18:44",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:44",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:50",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:56",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:56",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:18:56",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:25:52",
+        "message": "성동구 성수동2가 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:25:52",
+        "message": "[INFO] 성동구 옥수동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:25:57",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:25:57",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:26:03",
+        "message": "[INFO] 현재 41개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:26:09",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:26:09",
+        "message": "[INFO] 총 41개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:26:09",
+        "message": "[INFO] 최종적으로 41개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:32:45",
+        "message": "성동구 옥수동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:32:45",
+        "message": "[INFO] 성동구 금호동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:32:49",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:32:49",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:32:56",
+        "message": "[INFO] 현재 44개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:33:02",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:33:02",
+        "message": "[INFO] 총 44개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:33:02",
+        "message": "[INFO] 최종적으로 44개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:15",
+        "message": "성동구 금호동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:40:16",
+        "message": "[INFO] 성동구 도선동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:40:21",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:21",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:27",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:33",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:33",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:40:33",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:40",
+        "message": "성동구 도선동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:48:40",
+        "message": "[INFO] 성동구 행당동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:48:45",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:45",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:52",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:58",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:58",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:48:58",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:35",
+        "message": "성동구 행당동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 20:57:35",
+        "message": "[INFO] 성북구 길음동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 20:57:40",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:41",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:47",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:53",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:53",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 20:57:53",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:42",
+        "message": "성북구 길음동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:04:42",
+        "message": "[INFO] 성북구 돈암동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:04:47",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:47",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:53",
+        "message": "[INFO] 현재 41개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:59",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:59",
+        "message": "[INFO] 총 41개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:04:59",
+        "message": "[INFO] 최종적으로 41개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:08:45",
+        "message": "[!] 27번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:09:15",
+        "message": "[!] 31번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:09:42",
+        "message": "[!] 34번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:09:49",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:09:54",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:09:59",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:06",
+        "message": "[!] 36번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:10:12",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:16",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:21",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:34",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:38",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:43",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:10:53",
+        "message": "[!] 39번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:10:55",
+        "message": "[!] 40번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:11:02",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:08",
+        "message": "[!] 41번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 21:11:08",
+        "message": "성북구 돈암동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:11:09",
+        "message": "[INFO] 성북구 성북동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:11:13",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:13",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:19",
+        "message": "[INFO] 현재 43개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:26",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:26",
+        "message": "[INFO] 총 43개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:26",
+        "message": "[INFO] 최종적으로 43개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:33",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:38",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:43",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:54",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:11:59",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:12:03",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:12:14",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:11",
+        "message": "성북구 성북동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:19:11",
+        "message": "[INFO] 성북구 정릉동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:19:15",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:16",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:23",
+        "message": "[INFO] 현재 45개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:29",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:29",
+        "message": "[INFO] 총 45개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:19:29",
+        "message": "[INFO] 최종적으로 45개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:26:57",
+        "message": "성북구 정릉동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:26:57",
+        "message": "[INFO] 성북구 삼선동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:27:01",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:27:01",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:27:08",
+        "message": "[INFO] 현재 45개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:27:14",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:27:14",
+        "message": "[INFO] 총 45개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:27:14",
+        "message": "[INFO] 최종적으로 45개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:28:54",
+        "message": "Attempt 1: PlaceDetailBase 데이터 없음 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:01",
+        "message": "성북구 삼선동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:35:01",
+        "message": "[INFO] 성북구 안암동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:35:05",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:06",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:12",
+        "message": "[INFO] 현재 44개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:18",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:18",
+        "message": "[INFO] 총 44개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:35:18",
+        "message": "[INFO] 최종적으로 44개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:17",
+        "message": "성북구 안암동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:43:17",
+        "message": "[INFO] 송파구 잠실동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:43:21",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:21",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:27",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:33",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:33",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:43:33",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:44:33",
+        "message": "[!] 3번째 항목 처리 중 치명적인 오류 발생: Page.wait_for_selector: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"iframe#entryIframe\") to be visible\n"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:27",
+        "message": "Attempt 1: 에러 발생 - HTTPSConnectionPool(host='pcmap.place.naver.com', port=443): Max retries exceeded with url: /restaurant/2061601043/home (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000001EC46010550>: Failed to resolve 'pcmap.place.naver.com' ([Errno 11001] getaddrinfo failed)\"))"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 7번째 항목 처리 중 치명적인 오류 발생: Page.go_back: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 8번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 9번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 10번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 11번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 12번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 13번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 14번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 15번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 16번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 17번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 18번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 19번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 20번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 21번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 22번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 23번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 24번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 25번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 26번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 27번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 28번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 29번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 30번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 31번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 32번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 33번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 34번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 35번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 36번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 37번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 38번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 39번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 40번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 41번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:42",
+        "message": "[!] 42번째 항목 처리 중 치명적인 오류 발생: ElementHandle.query_selector: Target page, context or browser has been closed"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:43",
+        "message": "송파구 잠실동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:45:43",
+        "message": "[INFO] 송파구 문정동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:46:24",
+        "message": "[INFO] 송파구 잠실동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:46:29",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:46:29",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:46:35",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:46:41",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:46:41",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:46:41",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:06",
+        "message": "송파구 잠실동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 21:54:06",
+        "message": "[INFO] 송파구 문정동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 21:54:11",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:11",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:17",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:24",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:24",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 21:54:24",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:28",
+        "message": "송파구 문정동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:01:28",
+        "message": "[INFO] 송파구 가락동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:01:32",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:32",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:39",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:45",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:45",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:45",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:01:58",
+        "message": "[!] 2번째 항목의 정보 추출 중 오류 발생: 'NoneType' object has no attribute 'query_selector'"
+    },
+    {
+        "timestamp": "2025-07-31 22:01:58",
+        "message": "[!] 2번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 22:03:33",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:03:37",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:03:51",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:03:56",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:04:44",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:04:49",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:13",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:27",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:32",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:36",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:48",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:52",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:05:57",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:06:10",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:06:14",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:06:18",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:06:40",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:06:56",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:07:01",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:07:05",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:07:18",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:09:47",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:09:52",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:09:56",
+        "message": "Attempt 3: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:21",
+        "message": "송파구 가락동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:10:22",
+        "message": "[INFO] 송파구 송파동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:10:26",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:26",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:32",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:39",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:39",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:10:39",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:12:07",
+        "message": "Attempt 1: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:12:11",
+        "message": "Attempt 2: HTTP 429 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:16:28",
+        "message": "Attempt 1: PlaceDetailBase 데이터 없음 - 재시도 합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:17:55",
+        "message": "송파구 송파동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:17:55",
+        "message": "[INFO] 송파구 방이동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:18:00",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:18:00",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:18:06",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:18:12",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:18:12",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:18:12",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:24",
+        "message": "송파구 방이동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:25:24",
+        "message": "[INFO] 송파구 석촌동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:25:29",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:29",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:35",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:41",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:41",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:25:41",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:18",
+        "message": "송파구 석촌동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:34:18",
+        "message": "[INFO] 송파구 오금동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:34:23",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:23",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:29",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:35",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:35",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:34:35",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:41:49",
+        "message": "송파구 오금동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:41:49",
+        "message": "[INFO] 양천구 목동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:41:54",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:41:54",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:42:01",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:42:07",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:42:07",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:42:07",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:47:11",
+        "message": "[!] 31번째 항목의 정보 추출 중 오류 발생: 'NoneType' object has no attribute 'query_selector'"
+    },
+    {
+        "timestamp": "2025-07-31 22:47:11",
+        "message": "[!] 31번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 22:49:03",
+        "message": "양천구 목동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:49:03",
+        "message": "[INFO] 양천구 신정동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:49:08",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:49:08",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:49:14",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:49:20",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:49:20",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:49:20",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:27",
+        "message": "양천구 신정동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 22:57:27",
+        "message": "[INFO] 양천구 신월동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 22:57:31",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:31",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:38",
+        "message": "[INFO] 현재 47개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:44",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:44",
+        "message": "[INFO] 총 47개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 22:57:44",
+        "message": "[INFO] 최종적으로 47개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:05:05",
+        "message": "[!] 40번째 항목의 정보 추출 중 오류 발생: ElementHandle.click: Timeout 30000ms exceeded.\nCall log:\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    - waiting for element to be visible, enabled and stable\n    - element is not stable\n  2 × retrying click action\n      - waiting 100ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - performing click action\n      - <h1 id=\"_header\" class=\"bh9OH\">이모네별난곱창</h1> from <header role=\"banner\" data-nclicks-area-code=\"btp\" class=\"place_tab_shadow FFTct\">…</header> subtree intercepts pointer events\n  2 × retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - performing click action\n      - <h1 id=\"_header\" class=\"bh9OH\">이모네별난곱창</h1> from <header role=\"banner\" data-nclicks-area-code=\"btp\" class=\"place_tab_shadow FFTct\">…</header> subtree intercepts pointer events\n    - retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - performing click action\n      - <h1 id=\"_header\" class=\"bh9OH\">이모네별난곱창</h1> from <header role=\"banner\" data-nclicks-area-code=\"btp\" class=\"place_tab_shadow FFTct\">…</header> subtree intercepts pointer events\n  2 × retrying click action\n      - waiting 500ms\n      - waiting for element to be visible, enabled and stable\n      - element is not stable\n  - retrying click action\n    - waiting 500ms\n"
+    },
+    {
+        "timestamp": "2025-07-31 23:05:22",
+        "message": "[!] 41번째 항목 처리 중 치명적인 오류 발생: list index out of range"
+    },
+    {
+        "timestamp": "2025-07-31 23:06:25",
+        "message": "양천구 신월동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 23:06:25",
+        "message": "[INFO] 영등포구 여의도동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 23:18:27",
+        "message": "[INFO] 영등포구 여의도동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 23:18:32",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 23:18:33",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:18:39",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:18:45",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 23:18:45",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:18:45",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:18",
+        "message": "영등포구 여의도동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 23:27:18",
+        "message": "[INFO] 영등포구 영등포동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 23:27:23",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:23",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:29",
+        "message": "[INFO] 현재 50개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:36",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:36",
+        "message": "[INFO] 총 50개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:27:36",
+        "message": "[INFO] 최종적으로 50개의 항목을 처리합니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:37:47",
+        "message": "영등포구 영등포동 맛집 데이터 삽입 성공"
+    },
+    {
+        "timestamp": "2025-07-31 23:37:47",
+        "message": "[INFO] 영등포구 당산동 맛집에 대해 크롤링 작업 시작"
+    },
+    {
+        "timestamp": "2025-07-31 23:37:52",
+        "message": "[INFO] 스크롤을 시작합니다..."
+    },
+    {
+        "timestamp": "2025-07-31 23:37:52",
+        "message": "[INFO] 현재 10개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:37:58",
+        "message": "[INFO] 현재 42개 항목 로드됨. 계속 스크롤."
+    },
+    {
+        "timestamp": "2025-07-31 23:38:04",
+        "message": "[INFO] 더 이상 새 항목이 로드되지 않음. 스크롤 중지."
+    },
+    {
+        "timestamp": "2025-07-31 23:38:04",
+        "message": "[INFO] 총 42개의 항목을 스크롤하여 로드했습니다."
+    },
+    {
+        "timestamp": "2025-07-31 23:38:05",
+        "message": "[INFO] 최종적으로 42개의 항목을 처리합니다."
+    }
+]

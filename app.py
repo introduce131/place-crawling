@@ -140,7 +140,8 @@ def fetch_menu_from_script(business_id: str = Query(...)) -> List[Dict]:
         return [{"error": f"Failed to fetch: {response.status_code}"}]
 
     raw_bytes = response.content
-    pattern = rb'"Menu:%b_\d+"\s*:\s*\{.*?\}(?=,|\s*[\r\n]+\s*"|\s*\})' % business_id.encode()
+    # PlaceDetail_BaeminMenu로 시작하는 데이터만 추출하는 정규식 패턴
+    pattern = rb'"PlaceDetail_BaeminMenu:[^"]*"\s*:\s*\{.*?\}(?=,|\s*[\r\n]+\s*"|\s*\})'
     matches = re.findall(pattern, raw_bytes, re.DOTALL)
 
     menu_items = []
@@ -148,22 +149,27 @@ def fetch_menu_from_script(business_id: str = Query(...)) -> List[Dict]:
     for m in matches:
         try:
             text = m.decode("utf-8")
+            # 유니코드 이스케이프 및 URL 디코딩 처리
             text = text.encode().decode("unicode_escape")
             text = urllib.parse.unquote(text)
 
-            key_value_match = re.match(r'"Menu:[^"]*"\s*:\s*(\{.*\})', text, re.DOTALL)
+            # JSON 객체 추출
+            key_value_match = re.match(r'"PlaceDetail_BaeminMenu:[^"]*"\s*:\s*(\{.*\})', text, re.DOTALL)
             if not key_value_match:
                 continue
 
             raw_json = key_value_match.group(1)
             obj = json.loads(raw_json)
 
-            menu_items.append({
+            # 필요한 데이터 추출
+            menu_item = {
                 "name": fix_encoding(obj.get("name", "")),
                 "price": obj.get("price", ""),
-                "description": fix_encoding(obj.get("description", "")),
+                "description": fix_encoding(obj.get("desc", "")),  # `desc` 사용
                 "images": [clean_image_url(img) for img in obj.get("images", [])]
-            })
+            }
+
+            menu_items.append(menu_item)
 
         except Exception as e:
             continue
