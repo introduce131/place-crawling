@@ -31,8 +31,27 @@ USER_AGENTS = [
 
 # 메뉴가 하나도 없는 place_id만 가져오기
 def get_place_ids_without_menu():
-    response = supabase.rpc("get_restaurants_without_menu").execute()
-    return [row['place_id'] for row in response.data]
+    limit = 1000
+    offset = 0
+    all_place_ids = []
+
+    while True:
+        response = (
+            supabase.rpc("get_restaurants_without_menu")
+            .range(offset, offset + limit - 1)
+            .execute()
+        )
+        data = response.data
+        if not data:
+            break
+
+        all_place_ids.extend(row['place_id'] for row in data)
+
+        if len(data) < limit:
+            break
+        offset += limit
+
+    return all_place_ids
 
 def fix_encoding(text: str) -> str:
     try:

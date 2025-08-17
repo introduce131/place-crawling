@@ -154,70 +154,69 @@ def fetch_data(business_id: str) -> dict:
     return {"error": "최대 재시도 후에도 데이터를 가져오지 못했습니다."}
 
 def update_missing_coordinates():
-    # latitude, longitude가 null인 place_id 리스트 조회
-    # query = supabase.table("restaurant")\
-    #     .select("place_id")\
-    #     .is_("latitude", None)\
-    #     .is_("longitude", None)\
-    #     .execute()
+    limit = 1000
+    offset = 0
+    total_count = 0
 
-    query = supabase.table("restaurant")\
-            .select("place_id")\
-            .is_("latitude", None)\
-            .is_("longitude", None)\
-            .range(0, 9999)\
+    while True:
+        # 1000개씩 가져오기
+        query = (
+            supabase.table("restaurant_missing_data")
+            .select("place_id")
+            .range(offset, offset + limit - 1)
             .execute()
+        )
 
-    if query.data is None:
-        log_message(f"Supabase 조회 실패: {query.data}")
-        return
-    
-    place_ids = [item["place_id"] for item in query.data]
-    log_message(f"리뷰 수, 별점 누락된 {len(place_ids)}개 place_id 조회됨")
+        if not query.data:  # 더 이상 데이터 없으면 종료
+            break
 
-    update_rows = []
-    for i, pid in enumerate(place_ids, start=1):
-        info = fetch_data(pid)
-        if "error" not in info:
-            # restaurant 테이블에 update로 데이터 채워넣기
-            update_data = {
-                "latitude": info.get("lat"),
-                "longitude": info.get("lng"),
-                "road_address": info.get("road_address", ""),
-                "review_count": info.get("review_total"),
-                "review_score": info.get("review_score"),
-                "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
-            }
-            response = supabase.table("restaurant")\
-                .update(update_data)\
-                .eq("place_id", pid)\
-                .execute()
+        place_ids = [item["place_id"] for item in query.data]
+        log_message(f"Batch {offset//limit + 1}: {len(place_ids)}개 place_id 조회됨")
+        total_count += len(place_ids)
 
-            # place_keyword 테이블에 키워드 업서트
-            keyword_data = {
-                "place_id": pid,
-                "keywords": info.get("keyword_list", []),
-                "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
-            }
-            response2 = supabase.table("restaurant")\
-                .upsert(keyword_data)\
-                .eq("place_id", pid)\
-                .execute()
+        for i, pid in enumerate(place_ids, start=1):
+            info = fetch_data(pid)
+            if "error" not in info:
+                # restaurant 업데이트
+                update_data = {
+                    "latitude": info.get("lat"),
+                    "longitude": info.get("lng"),
+                    "road_address": info.get("road_address", ""),
+                    "review_count": info.get("review_total"),
+                    "review_score": info.get("review_score"),
+                    "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
+                }
+                response = (
+                    supabase.table("restaurant")
+                    .update(update_data)
+                    .eq("place_id", pid)
+                    .execute()
+                )
 
-            if response.data is None:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 업데이트 실패: {response.data}")
+                # place_keyword 업서트
+                keyword_data = {
+                    "place_id": pid,
+                    "keywords": info.get("keyword_list", []),
+                    "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
+                }
+                response2 = supabase.table("place_keyword").upsert(keyword_data).execute()
+
+                if response.data is None:
+                    log_message(f"[{offset+i}/{total_count}] {pid} 업데이트 실패")
+                else:
+                    log_message(f"[{offset+i}/{total_count}] {pid} 업데이트 완료")
+
+                if response2.data is None:
+                    log_message(f"[{offset+i}/{total_count}] {pid} 키워드 업서트 실패")
+                else:
+                    log_message(f"[{offset+i}/{total_count}] {pid} 키워드 업서트 완료")
+
             else:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 업데이트 완료")
+                log_message(f"[{offset+i}/{total_count}] {pid} 재수집 실패")
 
-            if response2.data is None:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 키워드 업서트 실패")
-            else:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 키워드 업서트 완료")
-                
-        else:
-            log_message(f"[{i}/{len(place_ids)}] place_id {pid} 재수집 실패")
+            time.sleep(random.uniform(1.5, 3.0))
 
-        time.sleep(random.uniform(1.5, 3.0))
+        offset += limit  # 다음 페이지로 이동
 
 if __name__ == "__main__":
     update_missing_coordinates()

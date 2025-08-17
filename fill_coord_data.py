@@ -55,6 +55,13 @@ def fix_encoding(s: str) -> str:
 def log_message(msg: str):
     print(f"[{datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d %H:%M:%S')}] {msg}")
 
+def extract_booking_id(script_text: str):
+    pattern = r'"bookingBusinessId"\s*:\s*"(\d+)"'
+    match = re.search(pattern, script_text)
+    if match:
+        return match.group(1)
+    return None
+
 def fetch_data(business_id: str) -> dict:
     import requests
     
@@ -108,13 +115,25 @@ def fetch_data(business_id: str) -> dict:
                 road_address = fix_encoding(place_data.get("roadAddress", ""))
                 reviewTotal = place_data.get("visitorReviewsTotal", None)
                 reviewScore = place_data.get("visitorReviewsScore", None)
-                
+
+                # bookingBusinessId(네이버 주문 고유 ID)와
+                # 'pickup'(포장) 타입의 NaverOrderItem ID를 추출
+                booking_id = extract_booking_id(response.text)
+                naverOrderItem = None
+
+                for key, value in apollo_state.items():
+                    if isinstance(key, str) and key.startswith("NaverOrderItem:"):
+                        if isinstance(value, dict) and value.get("type") == "pickup":
+                            naverOrderItem = value.get("id")
+
                 return {
                     "lat": lat,
                     "lng": lng,
                     "road_address": road_address,
                     "review_total": reviewTotal,
                     "review_score": reviewScore,
+                    "booking_id" : booking_id,
+                    "naverorder_id" : naverOrderItem,
                 }
             else:
                 log_message(f"Attempt {attempt+1}: PlaceDetailBase 데이터 없음 - 재시도 합니다.")
@@ -127,52 +146,55 @@ def fetch_data(business_id: str) -> dict:
     return {"error": "최대 재시도 후에도 데이터를 가져오지 못했습니다."}
 
 def update_missing_coordinates():
-    # latitude, longitude가 null인 place_id 리스트 조회
-    # query = supabase.table("restaurant")\
-    #     .select("place_id")\
-    #     .is_("latitude", None)\
-    #     .is_("longitude", None)\
-    #     .execute()
+    batch_size = 1000
+    offset = 0
 
-    query = supabase.table("restaurant")\
-            .select("place_id")\
-            .is_("latitude", None)\
-            .is_("longitude", None)\
-            .range(0, 9999)\
-            .execute()
-
-    if query.data is None:
-        log_message(f"Supabase 조회 실패: {query.data}")
-        return
-    
-    place_ids = [item["place_id"] for item in query.data]
-    log_message(f"리뷰 수, 별점 누락된 {len(place_ids)}개 place_id 조회됨")
-
-    update_rows = []
-    for i, pid in enumerate(place_ids, start=1):
-        info = fetch_data(pid)
-        if "error" not in info:
-            update_data = {
-                "latitude": info.get("lat"),
-                "longitude": info.get("lng"),
-                "road_address": info.get("road_address", ""),
-                "review_count": info.get("review_total"),
-                "review_score": info.get("review_score"),
-                "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
-            }
-            response = supabase.table("restaurant")\
-                .update(update_data)\
-                .eq("place_id", pid)\
+    while True:
+        # 1. Supabase에서 batch_size만큼 데이터 가져오기
+        query = supabase.table("restaurant")\
+                .select("place_id")\
+                .or_("latitude.is.null,longitude.is.null,booking_id.is.null,naverorder_id.is.null")\
+                .is_("processed_at", "null")\
+                .range(offset, offset + batch_size - 1)\
                 .execute()
 
-            if response.data is None:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 업데이트 실패: {response.data}")
-            else:
-                log_message(f"[{i}/{len(place_ids)}] place_id {pid} 업데이트 완료")
-        else:
-            log_message(f"[{i}/{len(place_ids)}] place_id {pid} 재수집 실패")
+        if not query.data:  # 데이터 없으면 종료
+            log_message("✅ 모든 place_id 처리 완료")
+            break
 
-        time.sleep(random.uniform(1.5, 3.0))
+        place_ids = [item["place_id"] for item in query.data]
+        log_message(f"📦 Batch {offset // batch_size + 1} → {len(place_ids)}개 place_id 조회됨")
+
+        # 2. 데이터 처리
+        for i, pid in enumerate(place_ids, start=1):
+            info = fetch_data(pid)
+            if "error" not in info:
+                update_data = {
+                    "latitude": info.get("lat"),
+                    "longitude": info.get("lng"),
+                    "road_address": info.get("road_address", ""),
+                    "review_count": info.get("review_total"),
+                    "review_score": info.get("review_score"),
+                    "booking_id": info.get("booking_id"),
+                    "naverorder_id": info.get("naverorder_id"),
+                    "updated_at": datetime.now(pytz.timezone('Asia/Seoul')).isoformat()
+                }
+                response = supabase.table("restaurant")\
+                    .update(update_data)\
+                    .eq("place_id", pid)\
+                    .execute()
+
+                if response.data is None:
+                    log_message(f"[{i}/{len(place_ids)}] place_id {pid} ❌ 업데이트 실패")
+                else:
+                    log_message(f"[{i}/{len(place_ids)}] place_id {pid} ✅ 업데이트 완료")
+            else:
+                log_message(f"[{i}/{len(place_ids)}] place_id {pid} ⚠️ 재수집 실패")
+
+            time.sleep(random.uniform(1.5, 3.0))  # API 부담 줄이기
+
+        # 3. 다음 배치로 이동
+        offset += batch_size
 
 if __name__ == "__main__":
     update_missing_coordinates()

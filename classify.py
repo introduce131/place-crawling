@@ -28,93 +28,67 @@ group_keywords = {
         "두부요리", "라면", "마실", "만두", "칼국수,만두", "바른생갈비", "백숙,삼계탕",
         "비빔밥", "생선구이", "샤브샤브", "찜닭", "추어탕", "해담채", "한식뷔페",
     ],
-    "중식": [
-        "중식", "마라탕", "딤섬", "중식만두", "중식당", "양꼬치"
-    ],
-    "일식": [
-        "일식", "초밥", "롤", "일본식라면", "이자카야", "우동", 
-        "소바", "덮밥", "일식당", "일식튀김", "일식,초밥뷔페", "카레",
-    ],
-    "양식": [
-        "양식", "스파게티", "파스타", "이탈리아", "프랑스", "스테이크", 
-        "립", "피자", "그리스", "스페인", "패밀리레스토랑", "돈가스",
-        "독일음식", "이탈리아음식", "그리스음식", "스페인음식", "프랑스음식"
-    ],
-    "고기": [
-        "강화통통생고기", "고기뷔페", "곱창,막창,양", "돼지고기구이", "소고기구이",
-        "육류", "보쌈", "족발", "정육식당", "양갈비", "오리요리", "양꼬치",
-    ],
-    "분식": [
-        "떡볶이", "분식", "오뎅", "꼬치", "전", "빈대떡", "종합분식",
-    ],
-    "치킨": [
-        "치킨", "닭강정", "닭장수후라이드", "닭요리", "일도씨닭갈비",
-    ],
-    "패스트푸드": [
-        "햄버거", "핫도그", "샌드위치", "피자", "서오릉피자"
-    ],
-    "다이어트식": [
-        "샐러드", "다이어트", "채식"
-    ],
-    "아시아음식": [
-        "베트남", "태국", "아시아", "인도", "터키", "카레", "터키음식", "인도음식",
-        "아시아음식", "베트남음식", "태국음식", 
-    ],
-    "세계음식": [
-        "멕시코,남미음식", "이북음식",
-    ],
-    "해산물": [
-        "게요리", "굴요리", "낙지요리", "대게나라", "대게요리", "바닷가재요리",
-        "복어요리", "생선구이", "생선회", "오징어요리", "장어,먹장어요리", "조개요리",
-        "주꾸미요리", "킹크랩요리", "해물,생선요리", "해산물뷔페", "해우리", "전복요리",
-    ],
-    "간편식": [
-        "도시락,컵밥", "도시락", "컵밥", "밀키트"
-    ],
-    "찜,탕": [
-        "매운탕,해물탕", "아귀찜,해물찜", "찜닭"
-    ],
-    "주류, 요리주점": [
-        "맥주,호프", "바(BAR)", "술집", "와인", "요리주점", "전통,민속주점"
-    ],
+    "중식": ["중식", "마라탕", "딤섬", "중식만두", "중식당", "양꼬치"],
+    "일식": ["일식", "초밥", "롤", "일본식라면", "이자카야", "우동", "소바", "덮밥", "일식당", "일식튀김", "일식,초밥뷔페", "카레"],
+    "양식": ["양식", "스파게티", "파스타", "이탈리아", "프랑스", "스테이크", "립", "피자", "그리스", "스페인", "패밀리레스토랑", "돈가스", "독일음식", "이탈리아음식", "그리스음식", "스페인음식", "프랑스음식"],
+    "고기": ["강화통통생고기", "고기뷔페", "곱창,막창,양", "돼지고기구이", "소고기구이", "육류", "보쌈", "족발", "정육식당", "양갈비", "오리요리", "양꼬치"],
+    "분식": ["떡볶이", "분식", "오뎅", "꼬치", "전", "빈대떡", "종합분식"],
+    "치킨": ["치킨", "닭강정", "닭장수후라이드", "닭요리", "일도씨닭갈비"],
+    "패스트푸드": ["햄버거", "핫도그", "샌드위치", "피자", "서오릉피자"],
+    "다이어트식": ["샐러드", "다이어트", "채식"],
+    "아시아음식": ["베트남", "태국", "아시아", "인도", "터키", "카레", "터키음식", "인도음식", "아시아음식", "베트남음식", "태국음식"],
+    "세계음식": ["멕시코,남미음식", "이북음식"],
+    "해산물": ["게요리", "굴요리", "낙지요리", "대게나라", "대게요리", "바닷가재요리", "복어요리", "생선구이", "생선회", "오징어요리", "장어,먹장어요리", "조개요리", "주꾸미요리", "킹크랩요리", "해물,생선요리", "해산물뷔페", "해우리", "전복요리"],
+    "간편식": ["도시락,컵밥", "도시락", "컵밥", "밀키트"],
+    "찜,탕": ["매운탕,해물탕", "아귀찜,해물찜", "찜닭"],
+    "주류, 요리주점": ["맥주,호프", "바(BAR)", "술집", "와인", "요리주점", "전통,민속주점"],
 }
 
 # 2. restaurant 테이블에서 카테고리 가져오기
 response = supabase.table("distinct_categories").select("category").execute()
-
-# 3. category_groups 테이블에 데이터 삽입
 if response.data is None:
-    print(f"Error: {response.error}")
-else:
-    restaurant_categories = response.data
+    print(f"Error fetching categories: {response.error}")
+    exit()
 
+restaurant_categories = response.data
+
+# 3. category_groups 테이블에 데이터 삽입 (중복 방지)
 for cat_record in restaurant_categories:
     cat = cat_record["category"].strip()  # 공백 제거
-
-    # 카테고리 그룹화
-    matched_groups = []  # 이미 매칭된 그룹들을 저장할 리스트
+    matched_groups = []
 
     for group, keywords in group_keywords.items():
         for keyword in keywords:
-            # 정규 표현식으로 단어 경계에 맞게 매칭
             if re.search(r'\b' + re.escape(keyword) + r'\b', cat):
-                # 해당 카테고리-그룹 조합이 이미 존재하는지 확인
-                existing = supabase.table("category_groups").select("id").eq("category", cat).eq("category_group", group).execute()
-
-                if not existing.data:  # 해당 카테고리-그룹 조합이 없으면 삽입
-                    supabase.table("category_groups").upsert({
+                # DB에서 이미 존재하는지 확인
+                check = supabase.table("category_groups")\
+                    .select("id")\
+                    .eq("category", cat)\
+                    .eq("category_group", group)\
+                    .execute()
+                
+                if not check.data:  # 존재하지 않으면 insert
+                    supabase.table("category_groups").insert({
                         "category": cat,
                         "category_group": group
                     }).execute()
-                    print(f"Inserted {cat} into {group} group.")  # 삽입된 정보 확인
+                    print(f"Inserted {cat} -> {group}")
                 
-                matched_groups.append(group)  # 매칭된 그룹 추가
-                break  # 해당 키워드로 매칭되었으면 더 이상 다른 키워드로 확인하지 않음
+                matched_groups.append(group)
+                break  # 첫 매칭 키워드로 그룹 결정
 
-    if not matched_groups:  # 아무 그룹에도 매칭되지 않으면 "기타" 그룹에 삽입
-        supabase.table("category_groups").upsert({
-            "category": cat,
-            "category_group": "기타"
-        }).execute()
+    # 어떤 그룹에도 매칭되지 않으면 "기타"
+    if not matched_groups:
+        check = supabase.table("category_groups")\
+            .select("id")\
+            .eq("category", cat)\
+            .eq("category_group", "기타")\
+            .execute()
+        if not check.data:
+            supabase.table("category_groups").insert({
+                "category": cat,
+                "category_group": "기타"
+            }).execute()
+            print(f"Inserted {cat} -> 기타")
 
 print("카테고리 그룹화 작업 완료!")
