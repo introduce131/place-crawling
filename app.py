@@ -194,17 +194,21 @@ def get_restaurant_detail(
     menu_res = supabase.table("menu")\
         .select("menu_id, place_id, menu_name, menu_price, description, image_url")\
         .eq("place_id", place_id)\
-        .order("split_part(menu_id, '_', 2)::int", desc=False)\
         .execute()
     menu = menu_res.data if menu_res.data else []
+
+    # menu_id 숫자 기준으로 정렬
+    menu = sorted(menu, key=lambda x: int(x["menu_id"].split("_")[1]))
 
     # 네이버 주문 메뉴
     booking_menu_res = supabase.table("booking_menu")\
         .select("menu_id, place_id, menu_name, menu_price, description, image_url")\
         .eq("place_id", place_id)\
-        .order("split_part(menu_id, '_', 2)::int", desc=False)\
         .execute()
     booking_menu = booking_menu_res.data if booking_menu_res.data else []
+
+    # booking_menu도 menu_id 숫자 기준 정렬
+    booking_menu = sorted(booking_menu, key=lambda x: int(x["menu_id"].split("_")[1]))
 
     # 메뉴판 이미지
     board_res = supabase.table("menu_board").select("image_url").eq("place_id", place_id).execute()
