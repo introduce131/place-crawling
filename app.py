@@ -7,6 +7,7 @@ import re
 import json
 import requests
 import random
+import asyncio
 
 app = FastAPI()
 
@@ -182,39 +183,50 @@ async def fetch_business_hours(business_id: str):
 # restaurant API
 # -------------------------------
 @app.get("/restaurant/{place_id}")
-def get_restaurant_detail(
-    place_id: str = Path(..., description="가게 고유 ID")) -> Dict:
-    
+async def get_restaurant_detail_async(
+    place_id: str = Path(..., description="가게 고유 ID")
+) -> Dict:
+
+    # restaurant 단일 조회 (순차)
     res = supabase.table("restaurant").select("*").eq("place_id", place_id).single().execute()
     if res.data is None:
         return {"error": "해당 place_id가 존재하지 않습니다."}
     restaurant = res.data
 
-    # 메뉴
-    menu_res = supabase.table("menu")\
-        .select("menu_id, place_id, menu_name, menu_price, description, image_url")\
-        .eq("place_id", place_id)\
-        .order("index", desc=False)\
-        .execute()
+    # 동기 함수를 스레드에서 동시에 실행
+    menu_task = asyncio.to_thread(lambda: supabase.table("menu")
+                                  .select("menu_id, place_id, menu_name, menu_price, description, image_url")
+                                  .eq("place_id", place_id)
+                                  .order("index", desc=False)
+                                  .execute())
+
+    booking_menu_task = asyncio.to_thread(lambda: supabase.table("booking_menu")
+                                          .select("menu_id, place_id, menu_name, menu_price, description, image_url")
+                                          .eq("place_id", place_id)
+                                          .order("index", desc=False)
+                                          .execute())
+
+    menu_board_task = asyncio.to_thread(lambda: supabase.table("menu_board")
+                                        .select("image_url")
+                                        .eq("place_id", place_id)
+                                        .execute())
+
+    keyword_task = asyncio.to_thread(lambda: supabase.table("place_keyword")
+                                     .select("keywords")
+                                     .eq("place_id", place_id)
+                                     .single()
+                                     .execute())
+
+    # 동시에 실행
+    menu_res, booking_menu_res, menu_board_res, keyword_res = await asyncio.gather(
+        menu_task, booking_menu_task, menu_board_task, keyword_task
+    )
+
     menu = menu_res.data if menu_res.data else []
-
-    # 네이버 주문 메뉴
-    booking_menu_res = supabase.table("booking_menu")\
-        .select("menu_id, place_id, menu_name, menu_price, description, image_url")\
-        .eq("place_id", place_id)\
-        .order("index", desc=False)\
-        .execute()
     booking_menu = booking_menu_res.data if booking_menu_res.data else []
-
-    # 메뉴판 이미지
-    board_res = supabase.table("menu_board").select("image_url").eq("place_id", place_id).execute()
-    menu_board = board_res.data if board_res.data else []
-
-    # 식당 키워드
-    keyword_res = supabase.table("place_keyword").select("keywords").eq("place_id", place_id).single().execute()
+    menu_board = menu_board_res.data if menu_board_res.data else []
     keywords = keyword_res.data["keywords"] if keyword_res.data else []
 
-    # 결과 합치기
     return {
         "restaurant": restaurant,
         "menu": menu,
