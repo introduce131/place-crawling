@@ -7,7 +7,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# app.py 복사
 COPY app.py .
+
+# graphql 폴더 복사
+COPY graphql ./graphql
 
 # Uvicorn 실행 (host 바인딩 필요)
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

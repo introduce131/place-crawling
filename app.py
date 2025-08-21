@@ -8,6 +8,8 @@ import json
 import requests
 import random
 import asyncio
+from graphql.menu_graphql import fetch_menu_for_place
+from graphql.menu_groups_graphql import fetch_menu_groups_for_place
 
 app = FastAPI()
 
@@ -19,31 +21,14 @@ supabase: Client = create_client(SUPABASE_PROJECT_URL, SUPABASE_ANON_API_KEY)
 # 공통적으로 사용하는 변수, 함수는 이곳에
 # ---------------------------------
 USER_AGENTS = [
-    # Windows - Chrome
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-
-    # macOS - Safari
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15",
-
-    # Linux - Chrome
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-
-    # Windows - Firefox
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0",
-
-    # macOS - Chrome
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-
-    # Android - Chrome
     "Mozilla/5.0 (Linux; Android 10; SM-G973N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Mobile Safari/537.36",
-
-    # iPhone - Safari
     "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1",
-
-    # iPad - Safari
     "Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-
-    # Windows 11 - Edge
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.2478.67",
 ]
 
@@ -193,18 +178,8 @@ async def get_restaurant_detail_async(
         return {"error": "해당 place_id가 존재하지 않습니다."}
     restaurant = res.data
 
-    # 동기 함수를 스레드에서 동시에 실행
-    menu_task = asyncio.to_thread(lambda: supabase.table("menu")
-                                  .select("menu_id, place_id, menu_name, menu_price, description, image_url")
-                                  .eq("place_id", place_id)
-                                  .order("index", desc=False)
-                                  .execute())
-
-    booking_menu_task = asyncio.to_thread(lambda: supabase.table("booking_menu")
-                                          .select("menu_id, place_id, menu_name, menu_price, description, image_url")
-                                          .eq("place_id", place_id)
-                                          .order("index", desc=False)
-                                          .execute())
+    # 동기 함수를 스레드에서 동시에 실행하도록 준비 (코루틴 객체)
+    menu_task = asyncio.to_thread(lambda: supabase.rpc("get_menu_data", {"p_place_id": place_id}).execute())
 
     menu_board_task = asyncio.to_thread(lambda: supabase.table("menu_board")
                                         .select("image_url")
@@ -212,25 +187,23 @@ async def get_restaurant_detail_async(
                                         .execute())
 
     keyword_task = asyncio.to_thread(lambda: supabase.table("place_keyword")
-                                     .select("keywords")
-                                     .eq("place_id", place_id)
-                                     .single()
-                                     .execute())
+                                    .select("keywords")
+                                    .eq("place_id", place_id)
+                                    .single()
+                                    .execute())
 
     # 동시에 실행
-    menu_res, booking_menu_res, menu_board_res, keyword_res = await asyncio.gather(
-        menu_task, booking_menu_task, menu_board_task, keyword_task
+    menu_res, menu_board_res, keyword_res = await asyncio.gather(
+        menu_task, menu_board_task, keyword_task
     )
 
     menu = menu_res.data if menu_res.data else []
-    booking_menu = booking_menu_res.data if booking_menu_res.data else []
     menu_board = menu_board_res.data if menu_board_res.data else []
     keywords = keyword_res.data["keywords"] if keyword_res.data else []
 
     return {
         "restaurant": restaurant,
         "menu": menu,
-        "booking_menu": booking_menu,
         "menu_board": menu_board,
         "keywords": keywords
     }
@@ -267,6 +240,25 @@ def search_restaurants(
 # -------------------------------
 # MENU API
 # -------------------------------
-@app.get("/menu")
-def fetch_menu_from_script(business_id: str = Query(...)) -> List[Dict]:
-    pass  # 실제 구현은 삭제
+@app.get("/menu/menu")
+async def get_menu(business_id: str = Query(..., description="네이버 플레이스 business_id")):
+    
+    # place_id, booking_id, naverorder_id는 DB에서 조회
+    res = supabase.table("restaurant").select("place_id, booking_id, naverorder_id")\
+        .eq("place_id", business_id).single().execute()
+
+    if res.data is None:
+        return {"error": "해당 place_id가 존재하지 않습니다."}
+
+    place_id = res.data["place_id"]
+    booking_id = res.data["booking_id"]
+    naverorder_id = res.data["naverorder_id"]
+
+    menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+    return menus
+
+# 이거는 menuGroups Graphql에서 받아오는 코드
+@app.get("/menu/menuGroups", response_model=List[Dict])
+async def get_menu_groups(business_id: str = Query(..., description="네이버 플레이스 business_id")):
+    menus = await asyncio.to_thread(fetch_menu_groups_for_place, business_id)
+    return menus
