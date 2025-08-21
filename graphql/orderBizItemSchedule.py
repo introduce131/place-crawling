@@ -102,6 +102,7 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
                 return None
 
             data = resp.json()
+            print("data : ", data)
             schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
             if not schedules:
                 return None
