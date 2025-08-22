@@ -129,43 +129,45 @@ def fetch_categories_graphql(place_id: str, booking_id: str, naverorder_id: str,
             for c in category_list:
                 all_ids.extend(extract_category_ids(c))
 
+            print(f"categoryIds:{all_ids}")
+
             return all_ids
     except Exception as e:
         print(f"⚠️ GraphQL 호출 실패: {e}")
         return []
 
 # 3. 메인 함수
-def main():
-    restaurants = get_booking_id()
-    if not restaurants:
-        print("✅ restaurant 테이블에 처리할 데이터 없음")
-        return
+# def main():
+#     restaurants = get_booking_id()
+#     if not restaurants:
+#         print("✅ restaurant 테이블에 처리할 데이터 없음")
+#         return
 
-    print(f"🔍 총 {len(restaurants)}개 restaurant에서 카테고리 수집 시작")
+#     print(f"🔍 총 {len(restaurants)}개 restaurant에서 카테고리 수집 시작")
 
-    all_categories = []
+#     all_categories = []
 
-    for i, r in enumerate(restaurants, start=1):
-        place_id = r["place_id"]
-        booking_id = r["booking_id"]
-        naverorder_id = r["naverorder_id"]
+#     for i, r in enumerate(restaurants, start=1):
+#         place_id = r["place_id"]
+#         booking_id = r["booking_id"]
+#         naverorder_id = r["naverorder_id"]
 
-        print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 수집 시작")
-        categories = fetch_categories_graphql(place_id, booking_id, naverorder_id)
+#         print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 수집 시작")
+#         categories = fetch_categories_graphql(place_id, booking_id, naverorder_id)
 
-        if categories:
-            all_categories.extend(categories)
-            print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 수집 완료 ({len(categories)}개)")
-        else:
-            print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 없음 또는 요청 실패")
+#         if categories:
+#             all_categories.extend(categories)
+#             print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 수집 완료 ({len(categories)}개)")
+#         else:
+#             print(f"[{i}/{len(restaurants)}] place_id: {place_id} 카테고리 없음 또는 요청 실패")
 
-        time.sleep(random.uniform(1.5, 3.0))
+#         time.sleep(random.uniform(1.5, 3.0))
 
-    # 4. JSON 파일로 저장
-    with open("categories.json", "w", encoding="utf-8") as f:
-        json.dump(all_categories, f, ensure_ascii=False, indent=2)
-    print("✅ categories.json 파일 생성 완료")
+#     # 4. JSON 파일로 저장
+#     with open("categories.json", "w", encoding="utf-8") as f:
+#         json.dump(all_categories, f, ensure_ascii=False, indent=2)
+#     print("✅ categories.json 파일 생성 완료")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 

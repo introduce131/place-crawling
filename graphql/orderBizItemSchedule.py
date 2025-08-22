@@ -3,8 +3,6 @@ import httpx
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
-from datetime import datetime
-from graphql.categories_graphql import fetch_categories_graphql
 
 # 환경 변수 로드
 load_dotenv()
@@ -16,8 +14,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
 ]
-
-today_str = datetime.now().strftime("%Y-%m-%d")
 
 # 1. place_id, booking_id, naverorder_id 가져오기 (테스트용 단일 ID)
 def get_booking_id():
@@ -102,10 +98,11 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
                 return None
 
             data = resp.json()
-            print("data : ", data)
             schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
             if not schedules:
                 return None
+            
+            print(f"{place_id}의 slotId : {schedules.get("slotId")}")
 
             return schedules.get("slotId")
     except Exception as e:

@@ -108,6 +108,8 @@ def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
             for idx, m in enumerate(menu_list):
                 if is_valid_menu(m):
                     menus.append(m)
+            
+            print(f"menus", menus)
             return menus
     except Exception as e:
         print(f"⚠️ 메뉴 GraphQL 실패: {e}")
