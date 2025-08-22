@@ -132,7 +132,7 @@ def fetch_menu_groups(place_id: str, booking_id: str, naverorder_id: str):
         })
     return menus
 
-def fetch_menu_groups_for_place(place_id: str):
+async def fetch_menu_groups_for_place(place_id: str):
     restaurant = get_restaurant_by_place_id(place_id)
     if not restaurant:
         print(f"❌ place_id {place_id} 해당 데이터 없음")
@@ -142,9 +142,9 @@ def fetch_menu_groups_for_place(place_id: str):
     naverorder_id = restaurant["naverorder_id"]
     slot_id = get_slot_id(place_id, booking_id, naverorder_id)
 
-    valid_category_ids = fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
-
-    menus = fetch_menu_groups(place_id, booking_id, naverorder_id)
+    valid_category_ids = await fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    menus = await fetch_menu_groups(place_id, booking_id, naverorder_id)
+    
     menus = filter_menus_by_category(menus, valid_category_ids)
     menus = deduplicate_menus(menus)
 
