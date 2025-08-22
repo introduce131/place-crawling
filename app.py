@@ -257,8 +257,8 @@ async def get_menu(business_id: str = Query(..., description="네이버 플레�
     menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
     return menus
 
-# 이거는 menuGroups Graphql에서 받아오는 코드
+# 이거는 menuGroups Graphql에서 받아오는 코드임
 @app.get("/menu/menuGroups", response_model=List[Dict])
 async def get_menu_groups(business_id: str = Query(..., description="네이버 플레이스 business_id")):
-    menus = await asyncio.to_thread(fetch_menu_groups_for_place, business_id)
+    menus = await fetch_menu_groups_for_place(business_id)
     return menus
