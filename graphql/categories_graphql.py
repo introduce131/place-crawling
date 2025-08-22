@@ -40,7 +40,7 @@ def get_booking_id():
     return response.data or []
 
 # 2. GraphQL 호출로 카테고리 가져오기
-def fetch_categories_graphql(place_id: str, booking_id: str, naverorder_id: str, slot_id: str):
+async def fetch_categories_graphql(place_id: str, booking_id: str, naverorder_id: str, slot_id: str):
     url = "https://m.booking.naver.com/graphql?opName=categories"
 
     headers = {
@@ -115,8 +115,8 @@ def fetch_categories_graphql(place_id: str, booking_id: str, naverorder_id: str,
     }
 
     try:
-        with httpx.Client() as client:
-            resp = client.post(url, headers=headers, json=payload, timeout=10)
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(url, headers=headers, json=payload, timeout=10)
             if resp.status_code != 200:
                 print(f"❌ 요청 실패: HTTP {resp.status_code}")
                 return []
