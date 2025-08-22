@@ -102,7 +102,7 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
             if not schedules:
                 return None
             
-            print(f"{place_id}의 slotId : {schedules.get("slotId")}")
+            print(f"{place_id}의 slotId : {schedules.get('slotId')}")
 
             return schedules.get("slotId")
     except Exception as e:
