@@ -129,8 +129,6 @@ def fetch_categories_graphql(place_id: str, booking_id: str, naverorder_id: str,
             for c in category_list:
                 all_ids.extend(extract_category_ids(c))
 
-            print(f"categoryIds:{all_ids}")
-
             return all_ids
     except Exception as e:
         print(f"⚠️ GraphQL 호출 실패: {e}")

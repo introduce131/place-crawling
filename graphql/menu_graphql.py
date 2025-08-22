@@ -4,7 +4,7 @@ from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
 from datetime import datetime
-import json
+import asyncio
 from graphql.categories_graphql import fetch_categories_graphql
 from graphql.orderBizItemSchedule import get_slot_id
 
@@ -108,8 +108,6 @@ def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
             for idx, m in enumerate(menu_list):
                 if is_valid_menu(m):
                     menus.append(m)
-            
-            print(f"menus", menus)
             return menus
     except Exception as e:
         print(f"⚠️ 메뉴 GraphQL 실패: {e}")
@@ -126,10 +124,20 @@ def filter_menus_by_category(menu_list: list, valid_category_ids: list):
 
 # 여기가 메인이지
 async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: str):
-    slot_id = get_slot_id(place_id, booking_id, naverorder_id)
-    valid_category_ids = fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    slot_id = await get_slot_id(place_id, booking_id, naverorder_id)
+    
+    # valid_category_ids = fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    # menus = fetch_menu_graphql(place_id, booking_id, naverorder_id)
 
-    menus = fetch_menu_graphql(place_id, booking_id, naverorder_id)
+    categories_task = asyncio.create_task(
+        fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    )
+    menus_task = asyncio.create_task(
+        fetch_menu_graphql(place_id, booking_id, naverorder_id)
+    )
+
+    valid_category_ids, menus = await asyncio.gather(categories_task, menus_task)
+
     menus = filter_menus_by_category(menus, valid_category_ids)
     menus = deduplicate_menus(menus)
 
