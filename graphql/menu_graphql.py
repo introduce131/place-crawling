@@ -57,7 +57,7 @@ def is_valid_menu(menu: dict) -> bool:
     return stock > 0 and remain > 0
 
 # 4. 메뉴 가져오기
-def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
+async def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
     url = "https://m.booking.naver.com/graphql?opName=menu"
     headers = {
         "accept": "*/*",
@@ -96,8 +96,8 @@ def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
     }
 
     try:
-        with httpx.Client() as client:
-            resp = client.post(url, headers=headers, json=payload, timeout=10)
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(url, headers=headers, json=payload, timeout=10)
             if resp.status_code != 200:
                 print(f"❌ 메뉴 요청 실패: HTTP {resp.status_code}")
                 return []
