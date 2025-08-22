@@ -124,10 +124,7 @@ def filter_menus_by_category(menu_list: list, valid_category_ids: list):
 
 # 여기가 메인이지
 async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: str):
-    slot_id = await get_slot_id(place_id, booking_id, naverorder_id)
-    
-    # valid_category_ids = fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
-    # menus = fetch_menu_graphql(place_id, booking_id, naverorder_id)
+    slot_id = get_slot_id(place_id, booking_id, naverorder_id)
 
     categories_task = asyncio.create_task(
         fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
