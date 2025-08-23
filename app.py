@@ -8,6 +8,7 @@ import json
 import requests
 import random
 import asyncio
+import statistics
 from graphql.menu_graphql import fetch_menu_for_place
 from graphql.menu_groups_graphql import fetch_menu_groups_for_place
 
@@ -37,6 +38,15 @@ def fix_encoding(s: str) -> str:
         return s.encode('latin1').decode('utf-8')
     except:
         return s
+    
+async def update_menu_cache(place_id: str, menus: List[Dict]):
+    prices = [m["menu_price"] for m in menus if m.get("menu_price", 0) > 5000]
+    if prices:
+        median_price = statistics.median(prices)
+        supabase.table("menu_cache").upsert({
+            "place_id": place_id,
+            "median_price": median_price
+        }).execute()
 
 def _extract_array_after_pos(html: str, pos: int) -> str | None:
     br = html.find('[', pos)
@@ -254,11 +264,48 @@ async def get_menu(business_id: str = Query(..., description="네이버 플레�
     booking_id = res.data["booking_id"]
     naverorder_id = res.data["naverorder_id"]
 
+    # 메뉴 데이터 가져오기
     menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+
+    # median_price를 계산, 캐싱
+    await update_menu_cache(place_id, menus)
+
     return menus
 
 # 이거는 menuGroups Graphql에서 받아오는 코드임
 @app.get("/menu/menuGroups", response_model=List[Dict])
-async def get_menu_groups(business_id: str = Query(..., description="네이버 플레이스 business_id")):
-    menus = await fetch_menu_groups_for_place(business_id)
+async def get_menu_groups(place_id: str = Query(..., description="네이버 플레이스 business_id")):
+    # 메뉴 데이터 가져오기
+    menus = await fetch_menu_groups_for_place(place_id)
+
+    # median_price를 계산, 캐싱
+    await update_menu_cache(place_id, menus)
+
     return menus
+
+# booking_id, naverorder_id가 있는 place를 menu_cache에 캐싱
+@app.get("/cache/menu")
+async def cache_menus(
+    lat:float = Query(..., description="사용자 위도"),
+    lng:float = Query(..., description="사용자 경도"),
+    radius:int = Query(5000, description="검색 반경(m)")
+):
+    # 1. 주변 식당부터 조회
+    res = supabase.rpc("get_restaurants", {
+        "p_lat": lat,
+        "p_lng": lng,
+        "p_radius": radius
+    }).execute()
+
+    restaurants = res.data or []
+
+    # 2. booking_id 또는 naverorder_id가 있는 항목을 target에 저장
+    targets = [
+        r for r in restaurants
+        if r.get("booking_id") or r.get("naverorder_id")
+    ]
+
+    if not targets:
+        return {"message": "캐싱할 대상 식당이 없습니다."}
+
+    print(targets)
