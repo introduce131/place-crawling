@@ -302,10 +302,29 @@ async def cache_menus(
     # 2. booking_id 또는 naverorder_id가 있는 항목을 target에 저장
     targets = [
         r for r in restaurants
-        if r.get("booking_id") or r.get("naverorder_id")
+        if r.get("booking_id") and r.get("naverorder_id")
     ]
 
     if not targets:
         return {"message": "캐싱할 대상 식당이 없습니다."}
+    
+    # 3. 병렬로 메뉴 데이터 가져오기 및 median_price 계산 후 캐싱
+    async def process_restaurant(r):
+        place_id = r["place_id"]
+        booking_id = r.get("booking_id")
+        naverorder_id = r.get("naverorder_id")
 
-    print(targets)
+        menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+        prices = [m["menu_price"] for m in menus if m.get("menu_price")]
+
+        if prices:
+            prices.sort()
+            median_price = prices[len(prices)//2]  # 중앙값 계산
+            supabase.table("menu_cache").upsert({
+                "place_id": place_id,
+                "median_price": median_price,
+            }).execute()
+
+    await asyncio.gather(*(process_restaurant(r) for r in targets))
+
+    return {"message": f"{len(targets)}개 식당의 메뉴 캐싱 완료"}
