@@ -329,10 +329,12 @@ async def cache_menus(
 
         # menu GraphQL 조회
         menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+        print(f"[DEBUG] fetch_menu_for_place({place_id}) -> {len(menus)} items")
 
         # menu에 없으면 menuGroups GraphQL 조회
         if not menus:
             menus = await fetch_menu_groups_for_place(place_id)
+            print(f"[DEBUG] fallback to fetch_menu_groups_for_place({place_id}) -> {len(menus)} items")
 
         prices = [m["menu_price"] for m in menus if m.get("menu_price")]
 
