@@ -135,6 +135,8 @@ async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: st
 
     valid_category_ids, menus = await asyncio.gather(categories_task, menus_task)
 
+    print(f"{place_id}의 menu : {menus}")
+
     menus = filter_menus_by_category(menus, valid_category_ids)
     menus = deduplicate_menus(menus)
 
