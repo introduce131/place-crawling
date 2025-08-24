@@ -319,7 +319,7 @@ async def cache_menus(
     async def fetch_with_fallback(place_id, booking_id, naverorder_id):
         # menu와 menuGroups 동시에 요청, menu 있으면 menuGroups 취소
         task_menu = asyncio.create_task(fetch_menu_for_place(place_id, booking_id, naverorder_id))
-        task_groups = asyncio.create_task(fetch_menu_groups_for_place(place_id, booking_id, naverorder_id))
+        task_groups = asyncio.create_task(fetch_menu_groups_for_place(place_id))
 
         menus = await task_menu
         if menus:
