@@ -11,12 +11,15 @@ import asyncio
 import statistics
 from graphql.menu_graphql import fetch_menu_for_place
 from graphql.menu_groups_graphql import fetch_menu_groups_for_place
+from datetime import datetime, timedelta, timezone
 
 app = FastAPI()
 
 SUPABASE_PROJECT_URL = os.getenv("SUPABASE_PROJECT_URL")
 SUPABASE_ANON_API_KEY = os.getenv("SUPABASE_ANON_API_KEY")
 supabase: Client = create_client(SUPABASE_PROJECT_URL, SUPABASE_ANON_API_KEY)
+
+KST = timezone(timedelta(hours=9))
 
 # ---------------------------------
 # 공통적으로 사용하는 변수, 함수는 이곳에
@@ -286,20 +289,19 @@ async def get_menu_groups(place_id: str = Query(..., description="네이버 플�
 # booking_id, naverorder_id가 있는 place를 menu_cache에 캐싱
 @app.get("/cache/menu")
 async def cache_menus(
-    lat:float = Query(..., description="사용자 위도"),
-    lng:float = Query(..., description="사용자 경도"),
-    radius:int = Query(5000, description="검색 반경(m)")
+    lat: float = Query(..., description="사용자 위도"),
+    lng: float = Query(..., description="사용자 경도"),
+    radius: int = Query(5000, description="검색 반경(m)")
 ):
-    # 1. 주변 식당부터 조회
+    # 1. 주변 식당 조회
     res = supabase.rpc("get_restaurants", {
         "p_lat": lat,
         "p_lng": lng,
         "p_radius": radius
     }).execute()
-
     restaurants = res.data or []
 
-    # 2. booking_id 또는 naverorder_id가 있는 항목을 target에 저장
+    # 2. booking_id, naverorder_id 있는 항목 필터링
     targets = [
         r for r in restaurants
         if r.get("booking_id") and r.get("naverorder_id")
@@ -307,24 +309,45 @@ async def cache_menus(
 
     if not targets:
         return {"message": "캐싱할 대상 식당이 없습니다."}
-    
-    # 3. 병렬로 메뉴 데이터 가져오기 및 median_price 계산 후 캐싱
+
+    # 오늘 날짜(KST, yyyy-mm-dd 형식)
+    today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
+
     async def process_restaurant(r):
         place_id = r["place_id"]
+
+        # 기존 캐시 확인
+        existing = supabase.table("menu_cache").select("updated_at").eq("place_id", place_id).execute()
+        existing_date = existing.data[0]["updated_at"] if existing.data else None
+
+        # 이미 오늘 캐싱된 경우 스킵
+        if existing_date == today_kst_str:
+            return
+
         booking_id = r.get("booking_id")
         naverorder_id = r.get("naverorder_id")
 
+        # menu GraphQL 조회
         menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+
+        # menu에 없으면 menuGroups GraphQL 조회
+        if not menus:
+            menus = await fetch_menu_groups_for_place(place_id, booking_id, naverorder_id)
+
         prices = [m["menu_price"] for m in menus if m.get("menu_price")]
 
         if prices:
             prices.sort()
             median_price = prices[len(prices)//2]  # 중앙값 계산
+
+            # 캐싱 (updated_at을 yyyy-mm-dd로 저장)
             supabase.table("menu_cache").upsert({
                 "place_id": place_id,
                 "median_price": median_price,
+                "updated_at": today_kst_str
             }).execute()
 
+    # 병렬 처리
     await asyncio.gather(*(process_restaurant(r) for r in targets))
 
     return {"message": f"{len(targets)}개 식당의 메뉴 캐싱 완료"}
