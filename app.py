@@ -301,54 +301,50 @@ async def cache_menus(
     }).execute()
     restaurants = res.data or []
 
-    # 2. booking_id, naverorder_id 있는 항목 필터링
+    # 2. 대상 필터링
     targets = [
         r for r in restaurants
         if r.get("booking_id") and r.get("naverorder_id")
     ]
-
     if not targets:
         return {"message": "캐싱할 대상 식당이 없습니다."}
 
-    # 오늘 날짜(KST, yyyy-mm-dd 형식)
+    # 오늘 날짜(KST)
     today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
 
     async def process_restaurant(r):
-        place_id = r["place_id"]
+        try:
+            place_id = r["place_id"]
 
-        # 기존 캐시 확인
-        existing = supabase.table("menu_cache").select("updated_at").eq("place_id", place_id).execute()
-        existing_date = existing.data[0]["updated_at"] if existing.data else None
+            # 기존 캐시 확인
+            existing = supabase.table("menu_cache").select("updated_at").eq("place_id", place_id).execute()
+            existing_date = existing.data[0]["updated_at"] if existing.data else None
 
-        # 이미 오늘 캐싱된 경우 스킵
-        if existing_date == today_kst_str:
-            return
+            if existing_date == today_kst_str:
+                return  # 이미 오늘 저장됨
 
-        booking_id = r.get("booking_id")
-        naverorder_id = r.get("naverorder_id")
+            # 메뉴 조회
+            menus = await fetch_menu_for_place(place_id, r.get("booking_id"), r.get("naverorder_id"))
+            if not menus:
+                menus = await fetch_menu_groups_for_place(place_id)
 
-        # menu GraphQL 조회
-        menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
+            # 가격 중앙값 계산 후 저장
+            prices = [m["menu_price"] for m in menus if m.get("menu_price")]
+            if prices:
+                prices.sort()
+                median_price = prices[len(prices) // 2]
 
-        # menu에 없으면 menuGroups GraphQL 조회
-        if not menus:
-            menus = await fetch_menu_groups_for_place(place_id)
+                print(f"[UPSERT] {place_id}, median={median_price}, date={today_kst_str}")
+                supabase.table("menu_cache").upsert({
+                    "place_id": place_id,
+                    "median_price": median_price,
+                    "updated_at": today_kst_str
+                }).execute()
 
-        prices = [m["menu_price"] for m in menus if m.get("menu_price")]
+        except Exception as e:
+            print(f"[ERROR] {r.get('place_id')}: {e}")
 
-        if prices:
-            prices.sort()
-            median_price = prices[len(prices)//2]  # 중앙값 계산
-            today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
-
-            # 캐싱 (updated_at을 yyyy-mm-dd로 저장)
-            supabase.table("menu_cache").upsert({
-                "place_id": place_id,
-                "median_price": median_price,
-                "updated_at": today_kst_str
-            }).execute()
-
-    # 병렬 처리
+    # 병렬 실행
     await asyncio.gather(*(process_restaurant(r) for r in targets))
 
-    return {"message": f"{len(targets)}개 식당의 메뉴 캐싱 완료"}
+    return {"message": f"{len(targets)}개 식당 캐싱 완료"}
