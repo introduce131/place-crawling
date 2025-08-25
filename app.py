@@ -310,9 +310,6 @@ async def cache_menus(
     if not targets:
         return {"message": "캐싱할 대상 식당이 없습니다."}
 
-    # 오늘 날짜(KST, yyyy-mm-dd 형식)
-    today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
-
     async def process_restaurant(r):
         place_id = r["place_id"]
 
@@ -329,18 +326,17 @@ async def cache_menus(
 
         # menu GraphQL 조회
         menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
-        print(f"[DEBUG] fetch_menu_for_place({place_id}) -> {len(menus)} items")
 
         # menu에 없으면 menuGroups GraphQL 조회
         if not menus:
             menus = await fetch_menu_groups_for_place(place_id)
-            print(f"[DEBUG] fallback to fetch_menu_groups_for_place({place_id}) -> {len(menus)} items")
 
         prices = [m["menu_price"] for m in menus if m.get("menu_price")]
 
         if prices:
             prices.sort()
             median_price = prices[len(prices)//2]  # 중앙값 계산
+            today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")  # 오늘 날짜(KST, yyyy-mm-dd 형식)
 
             # 캐싱 (updated_at을 yyyy-mm-dd로 저장)
             supabase.table("menu_cache").upsert({
