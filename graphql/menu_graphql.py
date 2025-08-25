@@ -138,7 +138,7 @@ async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: st
         "menu_id": f"{place_id}_{idx}",
         "place_id": place_id,
         "menu_name": m.get("name", "").strip(),
-        "menu_price": m.get("price"),
+        "menu_price": int(float(m["menu_price"])) if m.get("menu_price") else None,
         "description": m.get("desc", ""),
         "image_url": m.get("titleImageUrl", ""),
     } for idx, m in enumerate(menus)]
