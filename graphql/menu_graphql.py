@@ -128,14 +128,8 @@ async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: st
 
     print(f"place_id:{place_id}, booking_id:{booking_id}, naverorder_id:{naverorder_id}, slot_id:{slot_id}")
 
-    categories_task = asyncio.create_task(
-        fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
-    )
-    menus_task = asyncio.create_task(
-        fetch_menu_graphql(place_id, booking_id, naverorder_id)
-    )
-
-    valid_category_ids, menus = await asyncio.gather(categories_task, menus_task)
+    valid_category_ids = await fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    menus = await fetch_menu_graphql(place_id, booking_id, naverorder_id)
 
     menus = filter_menus_by_category(menus, valid_category_ids)
     menus = deduplicate_menus(menus)
