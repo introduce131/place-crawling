@@ -253,14 +253,14 @@ def search_restaurants(
 @app.get("/restaurant/category")
 async def get_restaurant_categories():
     try:
-        res = supabase.table("distinct_category_groups").select("category_group").execute()
+        category_res = supabase.table("distinct_category_groups").select("category_group").execute()
 
-        if res.data is None:
+        if category_res.data is None:
             return {"error": "Supabase 조회 실패"}
         
-        print(res.data)
+        print(category_res.data)
 
-        categories = [row["category_group"] for row in res.data if row["category_group"]]
+        categories = [row["category_group"] for row in category_res.data if row["category_group"]]
         
         # "기타"는 맨 뒤로 정렬
         categories_sorted = sorted(
