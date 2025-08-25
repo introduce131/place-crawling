@@ -126,7 +126,7 @@ def fetch_menu_groups(place_id: str, booking_id: str, naverorder_id: str):
             "place_id": place_id,
             "categoryId": m.get("categoryId", ""),
             "menu_name": m.get("name", "").strip(),
-            "menu_price": m.get("price") or m.get("impPrice"),
+            "menu_price": int(m["price"]) if m.get("price") not in (None, "") else None,
             "description": m.get("desc", ""),
             "image_url": m.get("titleImageUrl", "")
         })
