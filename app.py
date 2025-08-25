@@ -46,7 +46,7 @@ async def update_menu_cache(place_id: str, menus: List[Dict]):
     prices = [m["menu_price"] for m in menus if m.get("menu_price", 0) > 5000]
     if prices:
         median_price = int(statistics.median(prices))
-        await supabase.table("menu_cache").upsert({
+        supabase.table("menu_cache").upsert({
             "place_id": place_id,
             "median_price": median_price
         }).execute()
