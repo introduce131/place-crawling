@@ -270,6 +270,8 @@ async def get_menu(business_id: str = Query(..., description="네이버 플레�
     # 메뉴 데이터 가져오기
     menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
 
+    print("menu : ", menus)
+
     # median_price를 계산, 캐싱
     await update_menu_cache(place_id, menus)
 
