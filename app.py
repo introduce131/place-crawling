@@ -310,6 +310,9 @@ async def cache_menus(
     if not targets:
         return {"message": "캐싱할 대상 식당이 없습니다."}
 
+    # 오늘 날짜(KST, yyyy-mm-dd 형식)
+    today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
+
     async def process_restaurant(r):
         place_id = r["place_id"]
 
@@ -336,7 +339,7 @@ async def cache_menus(
         if prices:
             prices.sort()
             median_price = prices[len(prices)//2]  # 중앙값 계산
-            today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")  # 오늘 날짜(KST, yyyy-mm-dd 형식)
+            today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
 
             # 캐싱 (updated_at을 yyyy-mm-dd로 저장)
             supabase.table("menu_cache").upsert({
