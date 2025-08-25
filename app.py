@@ -45,8 +45,8 @@ def fix_encoding(s: str) -> str:
 async def update_menu_cache(place_id: str, menus: List[Dict]):
     prices = [m["menu_price"] for m in menus if m.get("menu_price", 0) > 5000]
     if prices:
-        median_price = statistics.median(prices)
-        supabase.table("menu_cache").upsert({
+        median_price = int(statistics.median(prices))
+        await supabase.table("menu_cache").upsert({
             "place_id": place_id,
             "median_price": median_price
         }).execute()
@@ -269,8 +269,6 @@ async def get_menu(business_id: str = Query(..., description="네이버 플레�
 
     # 메뉴 데이터 가져오기
     menus = await fetch_menu_for_place(place_id, booking_id, naverorder_id)
-
-    print("menu : ", menus)
 
     # median_price를 계산, 캐싱
     await update_menu_cache(place_id, menus)
