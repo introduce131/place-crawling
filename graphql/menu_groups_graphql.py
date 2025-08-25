@@ -142,15 +142,8 @@ async def fetch_menu_groups_for_place(place_id: str):
     naverorder_id = restaurant["naverorder_id"]
     slot_id = get_slot_id(place_id, booking_id, naverorder_id)
 
-    # 비동기 호출: categories는 async, menus는 동기 → 스레드에서 실행
-    categories_task = asyncio.create_task(
-        fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
-    )
-    menus_task = asyncio.create_task(
-        asyncio.to_thread(fetch_menu_groups, place_id, booking_id, naverorder_id)
-    )
-
-    valid_category_ids, menus = await asyncio.gather(categories_task, menus_task)
+    valid_category_ids = await fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
+    menus = await asyncio.to_thread(fetch_menu_groups, place_id, booking_id, naverorder_id)
 
     menus = filter_menus_by_category(menus, valid_category_ids)
     menus = deduplicate_menus(menus)
