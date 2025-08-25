@@ -250,6 +250,27 @@ def search_restaurants(
 
     return response.data
 
+@app.get("/restaurant/category")
+async def get_restaurant_categories():
+    try:
+        res = supabase.table("distinct_category_groups").select("category_group").execute()
+
+        if res.data is None:
+            return {"error": "Supabase 조회 실패"}
+
+        categories = [row["category_group"] for row in res.data if row["category_group"]]
+        
+        # "기타"는 맨 뒤로 정렬
+        categories_sorted = sorted(
+            [c for c in categories if c != "기타"]
+        ) + (["기타"] if "기타" in categories else [])
+
+        return [{"category_group": c} for c in categories_sorted]
+
+    except Exception as e:
+        print(f"[ERROR] get_restaurant_categories: {e}")
+        return {"error": "서버 내부 오류 발생"}
+
 # -------------------------------
 # MENU API
 # -------------------------------
