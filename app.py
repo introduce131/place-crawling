@@ -257,6 +257,8 @@ async def get_restaurant_categories():
 
         if res.data is None:
             return {"error": "Supabase 조회 실패"}
+        
+        print(res.data)
 
         categories = [row["category_group"] for row in res.data if row["category_group"]]
         
