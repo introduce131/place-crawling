@@ -90,11 +90,9 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
         """
     }
 
-    timeout = httpx.Timeout(connect=10.0, read=10.0, write=10.0, pool=5.0)
-
     try:
         print("📡 [1] 클라이언트 생성 중...")
-        with httpx.Client(timeout=timeout) as client:
+        with httpx.Client() as client:
             print("🚀 [2] POST 요청 전송 중...")
             resp = client.post(url, headers=headers, json=payload)
             print("✅ [3] 응답 도착")
