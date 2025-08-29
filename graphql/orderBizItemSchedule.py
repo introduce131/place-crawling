@@ -91,18 +91,29 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
     }
 
     try:
-        with httpx.Client() as client:
-            resp = client.post(url, headers=headers, json=payload, timeout=10)
+        print("📡 [1] 클라이언트 생성 중...")
+        with httpx.Client(timeout=timeout) as client:
+            print("🚀 [2] POST 요청 전송 중...")
+            resp = client.post(url, headers=headers, json=payload)
+            print("✅ [3] 응답 도착")
+            print(f"📦 응답 상태 코드: {resp.status_code}")
+
             if resp.status_code != 200:
-                print(f"❌ orderBizItemSchedule 요청 실패: HTTP {resp.status_code}")
+                print(f"❌ [4] 요청 실패: HTTP {resp.status_code}")
                 return None
 
+            print("🔍 [5] 응답 JSON 파싱 중...")
             data = resp.json()
             schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
+            
             if not schedules:
+                print("⚠️ [6] schedule 데이터 없음")
                 return None
 
-            return schedules.get("slotId")
+            slot_id = schedules.get("slotId")
+            print(f"🎯 [7] 추출된 slotId: {slot_id}")
+            return slot_id
+
     except Exception as e:
-        print(f"⚠️ orderBizItemSchedule 호출 실패: {e}")
+        print(f"❌ [ERROR] orderBizItemSchedule 호출 실패: {e}")
         return None
