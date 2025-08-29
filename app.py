@@ -12,6 +12,7 @@ import statistics
 from graphql.menu_graphql import fetch_menu_for_place
 from graphql.menu_groups_graphql import fetch_menu_groups_for_place
 from datetime import datetime, timedelta, timezone
+from datetime import date
 
 app = FastAPI()
 
@@ -395,3 +396,66 @@ async def get_restaurant_categories():
     except Exception as e:
         print(f"[ERROR] get_restaurant_categories: {e}")
         return {"error": "서버 내부 오류 발생"}
+    
+def get_booking_info(place_id: str):
+    response = supabase.table("restaurant")\
+        .select("place_id, booking_id, naverorder_id")\
+        .eq("place_id", place_id)\
+        .execute()
+    return response.data[0] if response.data else None
+
+# ========================
+# GraphQL 호출 (slot_id 가져오기)
+# ========================
+def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
+    url = "https://m.booking.naver.com/graphql?opName=orderBizItemSchedule"
+
+    headers = {
+        "content-type": "application/json",
+        "referer": f"https://m.booking.naver.com/order/bizes/{booking_id}/items/{naverorder_id}",
+        "user-agent": random.choice(USER_AGENTS),
+    }
+    
+    payload = {
+        "operationName": "orderBizItemSchedule",
+        "variables": {
+            "input": {
+                "lang": "ko",
+                "businessId": booking_id,
+                "bizItemId": naverorder_id,
+                "fallback": {"nextStartDate": date.today().isoformat()}
+            }
+        },
+        "query": """
+        query orderBizItemSchedule($input: OrderBizItemScheduleParams) {
+          orderBizItemSchedule(input: $input) {
+            id
+            schedule {
+              id
+              name
+              slotId
+              unitStartDateTime
+            }
+          }
+        }
+        """
+    }
+
+    try:
+        with httpx.Client(timeout=15, http2=False) as client:
+            resp = client.post(url, headers=headers, json=payload)
+            resp.raise_for_status()
+            data = resp.json()
+            schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
+            return schedules
+    except Exception as e:
+        return {"error": str(e)}
+    
+@app.get("/test-slot/{place_id}")
+def test_slot(place_id: str):
+    info = get_booking_info(place_id)
+    if not info:
+        return {"error": f"No booking info found for place_id={place_id}"}
+
+    schedules = get_slot_id(info["place_id"], info["booking_id"], info["naverorder_id"])
+    return {"place_id": place_id, "schedules": schedules}
