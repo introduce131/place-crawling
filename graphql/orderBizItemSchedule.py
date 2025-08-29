@@ -2,6 +2,7 @@ import random
 import httpx
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from datetime import date
 import os
 
 # 환경 변수 로드
@@ -56,7 +57,7 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
                 "businessId": booking_id,
                 "bizItemId": naverorder_id,
                 "fallback": {
-                    "nextStartDate": "2025-08-21"
+                    "nextStartDate": date.today().isoformat()
                 }
             }
         },
