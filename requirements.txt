@@ -2,5 +2,8 @@ fastapi
 uvicorn
 httpx
 requests
-supabase
+supabase    
 python-dotenv
+gunicorn
+passlib[bcrypt]
+pydantic[email]

@@ -12,6 +12,14 @@ SUPABASE_ANON_API_KEY = os.getenv("SUPABASE_ANON_API_KEY")
 supabase: Client = create_client(SUPABASE_PROJECT_URL, SUPABASE_ANON_API_KEY)
 
 USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 10; SM-G973N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Mobile Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
 ]
@@ -92,27 +100,20 @@ def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
     }
 
     try:
-        print("📡 [1] 클라이언트 생성 중...")
         with httpx.Client() as client:
-            print("🚀 [2] POST 요청 전송 중...")
             resp = client.post(url, headers=headers, json=payload)
-            print("✅ [3] 응답 도착")
-            print(f"📦 응답 상태 코드: {resp.status_code}")
 
             if resp.status_code != 200:
-                print(f"❌ [4] 요청 실패: HTTP {resp.status_code}")
+                print(f"요청 실패: HTTP {resp.status_code}")
                 return None
-
-            print("🔍 [5] 응답 JSON 파싱 중...")
+            
             data = resp.json()
             schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
             
             if not schedules:
-                print("⚠️ [6] schedule 데이터 없음")
                 return None
 
             slot_id = schedules.get("slotId")
-            print(f"🎯 [7] 추출된 slotId: {slot_id}")
             return slot_id
 
     except Exception as e:

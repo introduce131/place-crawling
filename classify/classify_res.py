@@ -82,7 +82,7 @@ group_keywords = {
 }
 
 # 2. restaurant 테이블에서 카테고리 가져오기
-response = supabase.table("distinct_categories").select("category").execute()
+response = supabase.table("distinct_restaurant_categories").select("category").execute()
 
 # 3. category_groups 테이블에 데이터 삽입
 if response.data is None:
@@ -106,7 +106,8 @@ for cat_record in restaurant_categories:
                 if not existing.data:  # 해당 카테고리-그룹 조합이 없으면 삽입
                     supabase.table("category_groups").upsert({
                         "category": cat,
-                        "category_group": group
+                        "category_group": group,
+                        "category_type": "food"
                     }).execute()
                     
                     print(f"Inserted {cat} into {group} group.")  # 삽입된 정보 확인
@@ -117,7 +118,8 @@ for cat_record in restaurant_categories:
     if not matched_groups:  # 아무 그룹에도 매칭되지 않으면 "기타" 그룹에 삽입
         supabase.table("category_groups").upsert({
             "category": cat,
-            "category_group": "기타"
+            "category_group": "기타",
+            "category_type": "food"
         }).execute()
 
 print("카테고리 그룹화 작업 완료!")

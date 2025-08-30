@@ -1,6 +1,11 @@
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, HTTPException, Query, Path
 from typing import Optional, Dict, List
 from supabase import create_client, Client
+from datetime import datetime, timedelta, timezone
+from passlib.context import CryptContext
+from graphql.menu_graphql import fetch_menu_for_place
+from graphql.menu_groups_graphql import fetch_menu_groups_for_place
+from models.auth import LoginRequest, LoginResponse, SignupRequest, SignupResponse
 import os
 import httpx
 import re
@@ -9,10 +14,7 @@ import requests
 import random
 import asyncio
 import statistics
-from graphql.menu_graphql import fetch_menu_for_place
-from graphql.menu_groups_graphql import fetch_menu_groups_for_place
-from datetime import datetime, timedelta, timezone
-from datetime import date
+import uuid
 
 app = FastAPI()
 
@@ -20,11 +22,23 @@ SUPABASE_PROJECT_URL = os.getenv("SUPABASE_PROJECT_URL")
 SUPABASE_ANON_API_KEY = os.getenv("SUPABASE_ANON_API_KEY")
 supabase: Client = create_client(SUPABASE_PROJECT_URL, SUPABASE_ANON_API_KEY)
 
+# KST(한국시간) 설정
 KST = timezone(timedelta(hours=9))
 
-# ---------------------------------
-# 공통적으로 사용하는 변수, 함수는 이곳에
-# ---------------------------------
+# 비밀번호 해싱
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# 비밀번호 해시
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+# 로그인 시, 비밀번호 검증
+def verify_password(plain_pw: str, hashed_pw: str) -> bool:
+    return pwd_context.verify(plain_pw, hashed_pw)
+
+# --------------------------------------
+# 공통적으로 사용하는 변수, 함수는 이곳에 정리
+# --------------------------------------
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15",
@@ -181,6 +195,7 @@ async def fetch_business_hours(business_id: str):
 # -------------------------------
 # restaurant API
 # -------------------------------
+# 식당 상세정보 조회
 @app.get("/restaurant/{place_id}")
 async def get_restaurant_detail_async(
     place_id: str = Path(..., description="가게 고유 ID")
@@ -254,6 +269,7 @@ def search_restaurants(
 # -------------------------------
 # MENU API
 # -------------------------------
+# menu Graphql에서 메뉴 받아오기
 @app.get("/menu/menu")
 async def get_menu(business_id: str = Query(..., description="네이버 플레이스 business_id")):
     
@@ -276,7 +292,7 @@ async def get_menu(business_id: str = Query(..., description="네이버 플레�
 
     return menus
 
-# 이거는 menuGroups Graphql에서 받아오는 코드임
+# menuGroups Graphql에서 메뉴 받아오기
 @app.get("/menu/menuGroups", response_model=List[Dict])
 async def get_menu_groups(place_id: str = Query(..., description="네이버 플레이스 business_id")):
     # 메뉴 데이터 가져오기
@@ -353,7 +369,7 @@ async def cache_menus(
 # -------------------------------
 # CATEGORY API
 # -------------------------------
-
+# "맛집" 카테고리 출력
 @app.get("/category/restaurant", response_model=List[Dict])
 async def get_restaurant_categories():
     try:
@@ -375,7 +391,7 @@ async def get_restaurant_categories():
         print(f"[ERROR] get_restaurant_categories: {e}")
         return {"error": "서버 내부 오류 발생"}
     
-
+# "여가" 카테고리 출력
 @app.get("/category/activity", response_model=List[Dict])
 async def get_restaurant_categories():
     try:
@@ -397,65 +413,236 @@ async def get_restaurant_categories():
         print(f"[ERROR] get_restaurant_categories: {e}")
         return {"error": "서버 내부 오류 발생"}
     
-def get_booking_info(place_id: str):
-    response = supabase.table("restaurant")\
-        .select("place_id, booking_id, naverorder_id")\
-        .eq("place_id", place_id)\
-        .execute()
-    return response.data[0] if response.data else None
-
-# ========================
-# GraphQL 호출 (slot_id 가져오기)
-# ========================
-def get_slot_id(place_id: str, booking_id: str, naverorder_id: str):
-    url = "https://m.booking.naver.com/graphql?opName=orderBizItemSchedule"
-
-    headers = {
-        "content-type": "application/json",
-        "referer": f"https://m.booking.naver.com/order/bizes/{booking_id}/items/{naverorder_id}",
-        "user-agent": random.choice(USER_AGENTS),
-    }
-    
-    payload = {
-        "operationName": "orderBizItemSchedule",
-        "variables": {
-            "input": {
-                "lang": "ko",
-                "businessId": booking_id,
-                "bizItemId": naverorder_id,
-                "fallback": {"nextStartDate": date.today().isoformat()}
-            }
-        },
-        "query": """
-        query orderBizItemSchedule($input: OrderBizItemScheduleParams) {
-          orderBizItemSchedule(input: $input) {
-            id
-            schedule {
-              id
-              name
-              slotId
-              unitStartDateTime
-            }
-          }
-        }
-        """
-    }
-
+# -------------------------------
+# AUTH API
+# -------------------------------
+# 게스트 사용자 생성
+@app.get("/auth/guest", response_model=Dict)
+async def create_guest_user():
     try:
-        with httpx.Client(timeout=15, http2=False) as client:
-            resp = client.post(url, headers=headers, json=payload)
-            resp.raise_for_status()
-            data = resp.json()
-            schedules = data.get("data", {}).get("orderBizItemSchedule", {}).get("schedule", [])
-            return schedules
-    except Exception as e:
-        return {"error": str(e)}
-    
-@app.get("/test-slot/{place_id}")
-def test_slot(place_id: str):
-    info = get_booking_info(place_id)
-    if not info:
-        return {"error": f"No booking info found for place_id={place_id}"}
+        guest_id = str(uuid.uuid4())
 
-    schedules = get_slot_id(info["place_id"], info["booking_id"], info["naverorder_id"])
-    return {"place_id": place_id, "schedules": schedules}
+        guest_data = {
+            "id" : guest_id,
+            "is_guest" : True,
+            "last_active_at": datetime.now(KST).isoformat(),
+        }
+
+        res = supabase.table("users").insert(guest_data).execute()
+
+        if not res.data:
+            raise HTTPException(status_code=500, detail="게스트 사용자 생성 실패")
+
+        return {"user_id": guest_id, "is_guest": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 회원가입
+@app.post("/auth/signup", response_model=SignupResponse)
+async def signup(req: SignupRequest):
+    try:
+        hashed_pw = hash_password(req.password)
+
+        if req.guest_id:  # 게스트 → 회원 전환
+            res = supabase.table("users").update({
+                "is_guest": False,
+                "email": req.email,
+                "nickname": req.nickname,
+                "birth": req.birth,
+                "password_hash": hashed_pw,
+                "last_active_at": datetime.now(KST).isoformat(),
+            }).eq("id", req.guest_id).execute()
+
+            if not res.data:
+                raise HTTPException(status_code=404, detail="해당 게스트가 존재하지 않음")
+            
+            user_id = req.guest_id
+            
+        else:  # 일반 신규 가입자
+            user_id = str(uuid.uuid4())
+
+            res = supabase.table("users").insert({
+                "id": user_id,
+                "is_guest": False,
+                "email": req.email,
+                "nickname": req.nickname,
+                "birth": req.birth,
+                "password_hash": hashed_pw,
+                "created_at": datetime.now(KST).isoformat(),
+                "last_active_at": datetime.now(KST).isoformat(),
+            }).execute()
+
+            if not res.data:
+                raise HTTPException(status_code=500, detail="회원가입 실패")
+        
+        return SignupResponse(
+            user_id=user_id,
+            email=req.email,
+            nickname=req.nickname,
+            birth=req.birth,
+            is_guest=False
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 로그인
+@app.post("/auth/login", response_model=LoginResponse)
+async def login(req: LoginRequest):
+    try:
+        # 1. 유저 조회
+        res = supabase.table("users").select("*").eq("email", req.email).single().execute()
+        if not res.data:
+            raise HTTPException(status_code=404, detail="이메일이 존재하지 않음")
+
+        user = res.data
+
+        # 2. 비밀번호 검증
+        if not verify_password(req.password, user["password_hash"]):
+            raise HTTPException(status_code=401, detail="비밀번호 불일치")
+
+        # 3. 로그인 성공 시 last_active_at 업데이트
+        supabase.table("users").update({
+            "last_active_at": datetime.now(KST).isoformat()
+        }).eq("id", user["id"]).execute()
+
+        # 4. 응답 반환
+        return LoginResponse(
+            user_id=user["id"],
+            email=user["email"],
+            nickname=user["nickname"],
+            birth=user["birth"],
+            is_guest=user["is_guest"],
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+# -------------------------------
+# ACTION API
+# -------------------------------
+# 식당에 대한 action 기록
+@app.post("/action/restaurant")
+async def record_restaurant_action(
+    user_id: str = Query(..., description="사용자 ID"),
+    place_id: str = Query(..., description="식당 ID"),
+    action_type: str = Query(..., description="액션 타입(view, click, like, dislike)")
+):  
+    try:
+        if action_type == "view":
+            action_column = "view_count"
+        elif action_type == "click":
+            action_column = "click_count"
+        elif action_type == "like":
+            action_column = "feedback"
+        elif action_type == "dislike":
+            action_column = "feedback"
+        else:
+            raise HTTPException(status_code=400, detail="잘못된 action_type 입니다")
+
+        res = supabase.table("user_restaurant_action")\
+                    .select("*")\
+                    .eq("user_id", user_id)\
+                    .eq("place_id", place_id)\
+                    .maybe_single()\
+                    .execute()
+
+        if res is not None and res.data is not None:
+            # view, click은 count를 1씩 증가
+            if action_type in ["view", "click"]:
+                updated_data = supabase.table("user_restaurant_action").update({
+                    action_column: res.data[action_column] + 1,
+                    "updated_at": datetime.now(KST).isoformat(),
+                }).eq("user_id", user_id).eq("place_id", place_id).execute()
+
+            # like, dislike는 상태를 업데이트
+            else:
+                updated_data = supabase.table("user_restaurant_action").update({
+                    action_column: action_type,
+                    "updated_at": datetime.now(KST).isoformat(),
+                }).eq("user_id", user_id).eq("place_id", place_id).execute()
+        else:
+            new_data = {
+                "user_id": user_id,
+                "place_id": place_id,
+                "view_count": 0,
+                "click_count": 0,
+                "feedback": None,
+                "updated_at": datetime.now(KST).isoformat()
+            }
+            if action_type == "view":
+                new_data["view_count"] = 1
+            elif action_type == "click":
+                new_data["click_count"] = 1
+            elif action_type == "like":
+                new_data["feedback"] = "like"
+            elif action_type == "dislike":
+                new_data["feedback"] = "dislike"    
+
+            updated_data = supabase.table("user_restaurant_action").insert(new_data).execute()
+        
+        return {"message": f"식당 {action_type} 액션이 기록되었습니다."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+# 여가에 대한 액션 기록
+@app.post("/action/activity")
+async def record_restaurant_action(
+    user_id: str = Query(..., description="사용자 ID"),
+    place_id: str = Query(..., description="장소 ID"),
+    action_type: str = Query(..., description="액션 타입(view, click, like, dislike)")
+):  
+    try:
+        if action_type == "view":
+            action_column = "view_count"
+        elif action_type == "click":
+            action_column = "click_count"
+        elif action_type == "like":
+            action_column = "feedback"
+        elif action_type == "dislike":
+            action_column = "feedback"
+        else:
+            raise HTTPException(status_code=400, detail="잘못된 action_type 입니다")
+
+        res = supabase.table("user_activity_action")\
+                    .select("*")\
+                    .eq("user_id", user_id)\
+                    .eq("place_id", place_id)\
+                    .maybe_single()\
+                    .execute()
+
+        if res is not None and res.data is not None:
+            # view, click은 count를 1씩 증가
+            if action_type in ["view", "click"]:
+                updated_data = supabase.table("user_activity_action").update({
+                    action_column: res.data[action_column] + 1,
+                    "updated_at": datetime.now(KST).isoformat(),
+                }).eq("user_id", user_id).eq("place_id", place_id).execute()
+
+            # like, dislike는 상태를 업데이트
+            else:
+                updated_data = supabase.table("user_activity_action").update({
+                    action_column: action_type,
+                    "updated_at": datetime.now(KST).isoformat(),
+                }).eq("user_id", user_id).eq("place_id", place_id).execute()
+        else:
+            new_data = {
+                "user_id": user_id,
+                "place_id": place_id,
+                "view_count": 0,
+                "click_count": 0,
+                "feedback": None,
+                "updated_at": datetime.now(KST).isoformat()
+            }
+            if action_type == "view":
+                new_data["view_count"] = 1
+            elif action_type == "click":
+                new_data["click_count"] = 1
+            elif action_type == "like":
+                new_data["feedback"] = "like"
+            elif action_type == "dislike":
+                new_data["feedback"] = "dislike"    
+
+            updated_data = supabase.table("user_activity_action").insert(new_data).execute()
+        
+        return {"message": f"여가 {action_type} 액션이 기록되었습니다."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

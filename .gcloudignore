@@ -1,0 +1,9 @@
+# 기본적으로 전부 무시
+**
+
+# 필요한 것만 포함
+!app.py
+!requirements.txt
+!app.yaml
+!graphql/**
+!models/**

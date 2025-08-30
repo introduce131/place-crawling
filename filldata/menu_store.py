@@ -167,6 +167,7 @@ def insert_menu_data(place_id, menu_data):
     for idx, item in enumerate(menu_data.get("menuItems", [])):
         menu_id = f"{place_id}_{idx}"
         data = {
+            "idx": idx,
             "menu_id": menu_id,
             "place_id": place_id,
             "menu_name": item["name"],

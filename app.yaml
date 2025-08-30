@@ -1,0 +1,10 @@
+runtime: python310
+entrypoint: gunicorn -k uvicorn.workers.UvicornWorker -b :$PORT app:app
+
+handlers:
+  - url: /.*
+    script: auto
+
+env_variables:
+  SUPABASE_PROJECT_URL: "https://gtkxguzyhkxugmopcfgm.supabase.co"
+  SUPABASE_ANON_API_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0a3hndXp5aGt4dWdtb3BjZmdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MDY0MzcsImV4cCI6MjA2NzI4MjQzN30.1XRVaqOaNKlpe5qh6ogM8l5tKl6zeXSC-0-v5tJE_0w"

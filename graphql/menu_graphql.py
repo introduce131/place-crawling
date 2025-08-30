@@ -7,12 +7,17 @@ from datetime import datetime
 import asyncio
 from graphql.categories_graphql import fetch_categories_graphql
 from graphql.orderBizItemSchedule import get_slot_id
+from datetime import datetime, timedelta, timezone
 
 # 환경 변수 로드
 load_dotenv()
 SUPABASE_PROJECT_URL = os.getenv("SUPABASE_PROJECT_URL")
 SUPABASE_ANON_API_KEY = os.getenv("SUPABASE_ANON_API_KEY")
 supabase: Client = create_client(SUPABASE_PROJECT_URL, SUPABASE_ANON_API_KEY)
+
+# 오늘 날짜(KST)
+KST = timezone(timedelta(hours=9))
+today_kst_str = datetime.now(KST).strftime("%Y-%m-%d")
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
@@ -26,8 +31,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
 ]
-
-today_str = datetime.now().strftime("%Y-%m-%d")
 
 def extract_category_ids(categories):
     ids = set()
@@ -49,7 +52,7 @@ def deduplicate_menus(menus: list):
 # 2. 메뉴 유효 여부 체크
 def is_valid_menu(menu: dict) -> bool:
     schedules = menu.get("schedules", {})
-    today_schedule = schedules.get(today_str)
+    today_schedule = schedules.get(today_kst_str)
     if not today_schedule:
         return False
     stock = today_schedule.get("stock", 0)
@@ -57,7 +60,7 @@ def is_valid_menu(menu: dict) -> bool:
     return stock > 0 and remain > 0
 
 # 4. 메뉴 가져오기
-async def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
+def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str):
     url = "https://m.booking.naver.com/graphql?opName=menu"
     headers = {
         "accept": "*/*",
@@ -96,19 +99,20 @@ async def fetch_menu_graphql(place_id: str, booking_id: str, naverorder_id: str)
     }
 
     try:
-        async with httpx.AsyncClient() as client:
-            resp = await client.post(url, headers=headers, json=payload, timeout=10)
-            if resp.status_code != 200:
-                print(f"❌ 메뉴 요청 실패: HTTP {resp.status_code}")
-                return []
+        resp = httpx.post(url, headers=headers, json=payload, timeout=10)
+        if resp.status_code != 200:
+            print(f"❌ 메뉴 요청 실패: HTTP {resp.status_code}")
+            return []
 
-            data = resp.json()
-            menu_list = data.get("data", {}).get("menu", {}).get("menus", [])
-            menus = []
-            for idx, m in enumerate(menu_list):
-                if is_valid_menu(m):
-                    menus.append(m)
-            return menus
+        data = resp.json()
+        menu_list = data.get("data", {}).get("menu", {}).get("menus", [])
+        menus = []
+
+        for idx, m in enumerate(menu_list):
+            if is_valid_menu(m):
+                menus.append(m)
+
+        return menus
     except Exception as e:
         print(f"⚠️ 메뉴 GraphQL 실패: {e}")
         return []
@@ -126,14 +130,12 @@ def filter_menus_by_category(menu_list: list, valid_category_ids: list):
 async def fetch_menu_for_place(place_id: str, booking_id: str, naverorder_id: str):
     slot_id = get_slot_id(place_id, booking_id, naverorder_id)
 
-    print(f"place_id:{place_id}, booking_id:{booking_id}, naverorder_id:{naverorder_id}, slot_id:{slot_id}")
-
     valid_category_ids = None
 
     if slot_id:
         valid_category_ids = await fetch_categories_graphql(place_id, booking_id, naverorder_id, slot_id)
     
-    menus = await fetch_menu_graphql(place_id, booking_id, naverorder_id) or []
+    menus = await asyncio.to_thread(fetch_menu_graphql, place_id, booking_id, naverorder_id) or []
 
     if slot_id and valid_category_ids:
         menus = filter_menus_by_category(menus, valid_category_ids)

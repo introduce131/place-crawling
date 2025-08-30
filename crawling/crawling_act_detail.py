@@ -57,41 +57,31 @@ supabase: Client = create_client(database_url, database_key)
 results = [] # 결과를 저장할 리스트
 
 keywords = [
-    #"강남구 개포동 놀거리", "강남구 논현동 놀거리", "강남구 삼성동 놀거리", "강남구 역삼동 놀거리", "강남구 신사동 놀거리",
-    #"강남구 청담동 놀거리", "강남구 압구정동 놀거리", "강남구 일원동 놀거리", "강남구 도곡동 놀거리", "강남구 세곡동 놀거리",
-    #"강남구 대치동 놀거리", "강남구 수서동 놀거리", "강동구 길동 놀거리", "강동구 명일동 놀거리", "강동구 상일동 놀거리",
-    #"강동구 암사동 놀거리", "강동구 천호동 놀거리", "강동구 둔촌동 놀거리", "강동구 성내동 놀거리", "강동구 강일동 놀거리",
-    #"강북구 미아동 놀거리", "강북구 수유동 놀거리", "강북구 번동 놀거리", "강북구 인수동 놀거리", "강북구 우이동 놀거리",
-    #"강북구 삼양동 놀거리", "강서구 가양동 놀거리", "강서구 등촌동 놀거리", "강서구 방화동 놀거리", "강서구 염창동 놀거리",
-    #"강서구 마곡동 놀거리", "강서구 화곡동 놀거리", "강서구 우장산동 놀거리", "강서구 내발산동 놀거리", "관악구 봉천동 놀거리",
-    #"관악구 신림동 놀거리", "관악구 조원동 놀거리", "관악구 서원동 놀거리", "관악구 미성동 놀거리", "광진구 광장동 놀거리",
-    #"광진구 구의동 놀거리", "광진구 자양동 놀거리", "광진구 능동 놀거리", "광진구 화양동 놀거리", "광진구 중곡동 놀거리",
-    #"구로구 구로동 놀거리", "구로구 개봉동 놀거리", "구로구 고척동 놀거리", "구로구 오류동 놀거리", "구로구 궁동 놀거리",
-    #"구로구 천왕동 놀거리", "구로구 항동 놀거리", "노원구 상계동 놀거리", "노원구 하계동 놀거리", "노원구 월계동 놀거리",
-    #"노원구 중계동 놀거리", "노원구 공릉동 놀거리", "도봉구 도봉동 놀거리", "도봉구 방학동 놀거리", "도봉구 쌍문동 놀거리",
-    #"도봉구 창동 놀거리", "동대문구 용두동 놀거리", "동대문구 장안동 놀거리", "동대문구 제기동 놀거리", "동대문구 회기동 놀거리",
-    # "동대문구 휘경동 놀거리", "동대문구 청량리동 놀거리", "동대문구 전농동 놀거리", "마포구 공덕동 놀거리", "마포구 망원동 놀거리",
-    # "마포구 상수동 놀거리", "마포구 서교동 놀거리", "마포구 합정동 놀거리", "마포구 대흥동 놀거리", "마포구 성산동 놀거리",
-    # "서대문구 홍은동 놀거리", "서대문구 충정로 놀거리", "서대문구 무악동 놀거리", "서대문구 남가좌동 놀거리", "서대문구 북가좌동 놀거리",
-    # "서대문구 연희동 놀거리", "서초구 서초동 놀거리", "서초구 방배동 놀거리", "서초구 양재동 놀거리", "서초구 우면동 놀거리",
-    # "서초구 내곡동 놀거리", "성동구 성수동1가 놀거리", "성동구 성수동2가 놀거리", "성동구 옥수동 놀거리", "성동구 금호동 놀거리",
-    # "성동구 도선동 놀거리", "성동구 행당동 놀거리", "성북구 길음동 놀거리", "성북구 돈암동 놀거리", "성북구 성북동 놀거리",
-    # "성북구 정릉동 놀거리", "성북구 삼선동 놀거리", "성북구 안암동 놀거리", "송파구 잠실동 놀거리", "송파구 문정동 놀거리",
-    # "송파구 가락동 놀거리", "송파구 송파동 놀거리", "송파구 방이동 놀거리", "송파구 석촌동 놀거리", "송파구 오금동 놀거리",
-    # "양천구 목동 놀거리", "양천구 신정동 놀거리", "양천구 신월동 놀거리", "영등포구 여의도동 놀거리", "영등포구 영등포동 놀거리",
-    #"영등포구 당산동 놀거리", 
-    "영등포구 문래동 놀거리", "영등포구 대림동 놀거리", "영등포구 신길동 놀거리", "영등포구 양평동 놀거리",
-    "용산구 이태원동 놀거리", "용산구 후암동 놀거리", "용산구 한남동 놀거리", "용산구 효창동 놀거리", "용산구 원효로 놀거리",
-    "용산구 보광동 놀거리", "은평구 불광동 놀거리", "은평구 응암동 놀거리", "은평구 구산동 놀거리", "은평구 역촌동 놀거리",
-    "은평구 대조동 놀거리", "종로구 사직동 놀거리", "종로구 삼청동 놀거리", "종로구 이화동 놀거리", "종로구 청운효자동 놀거리",
-    "종로구 혜화동 놀거리", "중구 남대문로 놀거리", "중구 명동 놀거리", "중구 예관동 놀거리", "중구 을지로동 놀거리",
-    "중구 신당동 놀거리", "중구 황학동 놀거리", "중랑구 면목동 놀거리", "중랑구 상봉동 놀거리", "중랑구 묵동 놀거리",
-    "중랑구 망우동 놀거리", "중랑구 신내동 놀거리", "중랑구 중화동 놀거리",
-    "홍대 놀거리", "연남동 놀거리", "망원역 놀거리", "상수 놀거리", "합정역 놀거리", "성수 놀거리", "건대입구 놀거리", "이태원 놀거리",
-    "한남동 놀거리", "경리단길 놀거리", "익선동 놀거리", "을지로 놀거리", "삼청동 놀거리", "북촌 놀거리", "서촌 놀거리", "가로수길 놀거리",
-    "신사역 놀거리", "압구정 놀거리", "청담동 놀거리", "여의도 놀거리", "광화문 놀거리", "종로 놀거리", "시청 놀거리", "삼성역 놀거리",
-    "역삼역 놀거리", "강남역 놀거리", "선릉역 놀거리", "잠실역 놀거리", "문정역 놀거리", "구로디지털단지역 놀거리", 
-    "가산디지털단지역 놀거리", "명동 놀거리","동대문 놀거리", "코엑스 놀거리", "영등포 타임스퀘어 놀거리", "DDP 놀거리", "롯데월드타워 놀거리"
+    "서울시 종로구 테마카페",
+    "서울시 중구 테마카페",
+    "서울시 용산구 테마카페",
+    "서울시 성동구 테마카페",
+    "서울시 광진구 테마카페",
+    "서울시 동대문구 테마카페",
+    "서울시 중랑구 테마카페",
+    "서울시 성북구 테마카페",
+    "서울시 강북구 테마카페",
+    "서울시 도봉구 테마카페",
+    "서울시 노원구 테마카페",
+    "서울시 은평구 테마카페",
+    "서울시 서대문구 테마카페",
+    "서울시 마포구 테마카페",
+    "서울시 양천구 테마카페", 
+    "서울시 강서구 테마카페",
+    "서울시 구로구 테마카페",
+    "서울시 금천구 테마카페",
+    "서울시 영등포구 테마카페",
+    "서울시 동작구 테마카페",
+    "서울시 관악구 테마카페",
+    "서울시 서초구 테마카페",
+    "서울시 강남구 테마카페",
+    "서울시 송파구 테마카페",
+    "서울시 강동구 테마카페",
 ]
 
 # 로그 데이터를 JSON 형식으로 저장하는 함수
@@ -253,19 +243,17 @@ def process_tab():
             if not search_frame:
                 search_frame = page.frames[1]
 
-            # '놀거리' 클릭
-            act_btn = search_frame.query_selector('a.EPezv.zBtVp >> span.ekDJh:text("놀거리")')
-
-            if act_btn:
-                act_btn.click()
-            
-            time.sleep(0.5)
-
             last_item_count = 0
 
             log_message("[INFO] 스크롤을 시작합니다...")
+            
+            # 스크롤 컨테이너 찾기 (ul 기준)
+            scroll_container = search_frame.query_selector("#_pcmap_list_scroll_container ul")
+
+            last_item_count = 0
             while True:
-                list_items = search_frame.query_selector_all("li.S0Ns3.TPSle.QBNpp")
+                # ul 하위 li 전부 가져오기
+                list_items = scroll_container.query_selector_all("li")
                 current_item_count = len(list_items)
 
                 if current_item_count > last_item_count:
@@ -279,7 +267,7 @@ def process_tab():
             
             log_message(f"[INFO] 총 {last_item_count}개의 항목을 스크롤하여 로드했습니다.")
 
-            final_list_items = search_frame.query_selector_all("li.S0Ns3.TPSle.QBNpp")
+            final_list_items = scroll_container.query_selector_all("li")
             log_message(f"[INFO] 최종적으로 {len(final_list_items)}개의 항목을 처리합니다.")
 
             for i, listitem in enumerate(final_list_items):
@@ -288,7 +276,8 @@ def process_tab():
                         log_message(f"[!] {i+1}번째 항목을 찾을 수 없습니다 (DOM 변경 가능성). 다음 항목으로 건너뜁니다.")
                         continue
 
-                    title_tag = listitem.query_selector(".YgcU0 .TaEbI .place_bluelink.CYFGv.aKxn4")
+                    title_tag = listitem.query_selector("a.place_bluelink[role='button']")
+
                     if not title_tag:
                         log_message(f"[!] {i+1}번째 항목의 클릭 요소(제목 링크)를 찾을 수 없습니다. 다음 항목으로 건너뜁니다.")
                         continue
@@ -321,7 +310,11 @@ def process_tab():
 
                     # URL에서 고유 ID 추출 (예: 'https://map.naver.com/p/place/2094027000'에서 '2094027000'을 추출)
                     match = re.search(r"place/(\d+).*?home", entry_url)
-                    place_id = match.group(1) if match else "unknown"
+                    if not match:
+                        log_message(f"[!] {i+1}번째 항목: {entry_url}에서 place_id 추출 실패 - 스킵합니다.")
+                        continue  # place_id 못 찾으면 이 항목은 건너뜀
+
+                    place_id = match.group(1)
 
                     # 페이지에서 필요한 정보 추출
                     main = entry_frame.query_selector("[role='main']")
@@ -329,17 +322,32 @@ def process_tab():
                         print(f"[!] {i+1}번째 항목의 상세 페이지에서 main 요소를 찾을 수 없습니다. 다음 항목으로 건너뜁니다.")
                         continue
 
+                    thumbnail = None
+                    try:
+                        image_sections = main.query_selector_all(".CB8aP > .uDR4i > .CEX4u")
+                        if image_sections and len(image_sections) > 0:
+                            img = image_sections[0].query_selector(".fNygA > a > img")
+                            if img:
+                                thumbnail = img.get_attribute("src")
+
+                        if not thumbnail:
+                            log_message(f"[INFO] {i+1}번째 항목: 썸네일 없음.")
+
+                    except Exception as e:
+                        log_message(f"[!] {i+1}번째 항목의 이미지 추출 중 오류 발생: {e}")
+                        thumbnail = None
+
+                    """
                     img_urls = []
                     try:
                         image_sections = main.query_selector_all(".CB8aP > .uDR4i > .CEX4u")
-                        if image_sections:
-                            if len(image_sections) > 0:
-                                img = image_sections[0].query_selector(".fNygA > a > img")
-                                if img:
-                                    img_urls.append(img.get_attribute("src"))
+                        if image_sections and len(image_sections) > 0:
+                            img = image_sections[0].query_selector(".fNygA > a > img")
+                            if img:
+                                img_urls.append(img.get_attribute("src"))
+                            
                             
                             # 나머지 이미지 4개
-                            """
                             if len(image_sections) > 1:
                                 divs_in_second_section = image_sections[1].query_selector_all(".hEm4D")
                                 for div in divs_in_second_section:
@@ -348,9 +356,9 @@ def process_tab():
                                         img = nest.query_selector(".fNygA > a > img")
                                         if img:
                                             img_urls.append(img.get_attribute("src"))
-                            """
                     except Exception as e:
                         log_message(f"[!] {i+1}번째 항목의 이미지 추출 중 오류 발생: {e}")
+                    """
 
                     # 상호명, 카테고리 추출
                     title = ""
@@ -371,14 +379,14 @@ def process_tab():
                     address = ""
                     direct = ""
                     homepage = ""
-                    weekdays_list = []  # 모든 요일 정보 저장할 리스트
+                    #weekdays_list = []  # 모든 요일 정보 저장할 리스트
                     phoneNum = ""
                     extra_info = {}
 
                     try:
                         place_section_content = main.query_selector(".place_section.no_margin > .place_section_content > .PIbes")
                         address_div = place_section_content.query_selector(".O8qbU.tQY7D > .vV_z_")
-                        hours_div = place_section_content.query_selector(".O8qbU.pSavy > .vV_z_")
+                        #hours_div = place_section_content.query_selector(".O8qbU.pSavy > .vV_z_")
                         phone_div = place_section_content.query_selector(".O8qbU.nbXkr > .vV_z_")
                         homepage_div = place_section_content.query_selector(".O8qbU.yIPfO > .vV_z_")
 
@@ -414,59 +422,59 @@ def process_tab():
                                 direct = ""
 
                         
-                        if hours_div is None:
-                            print("영업시간 정보 없음")
-                            hours = ""
+                        # if hours_div is None:
+                        #     print("영업시간 정보 없음")
+                        #     hours = ""
+                        # else:
+                        #     hours_button = hours_div.query_selector("a.gKP9i.RMgN0")  # 영업시간 <a> 태그
+                        #     hours_button.scroll_into_view_if_needed()
+                        #     hours_button.click()
+                        #     time.sleep(0.5)
+                        #     entry_frame.wait_for_selector(".w9QyJ")
+                        #     # entryIframe에서 .w9QyJ 클래스를 가진 모든 요소를 가져오기
+                        #     week_days_locator = entry_frame.locator(".w9QyJ")
+
+                        #     try:
+                        #         # .w9QyJ 요소들 가져오기
+                        #         week_days_elements = week_days_locator.all()
+
+                        #         # .vI8SM 클래스가 없는 .w9QyJ 요소만 필터링
+                        #         valid_week_days_elements = [element for element in week_days_elements if "vI8SM" not in element.get_attribute('class')]
+
+                        #         # 유효한 .w9QyJ 요소가 있다면 모든 요소를 처리
+                        #         if valid_week_days_elements:
+
+                        #             # 각 요소를 반복하면서 처리
+                        #             for element in valid_week_days_elements:
+                        #                 week_days_text = element.inner_text()  # 각 요소의 텍스트 가져오기
+                        #                 week_days_text = week_days_text.replace('\xa0', ' ') # &nbsp를 일반공백으로 변경
+                        #                 week_days_text = week_days_text.replace("접기", "") # '접기' 제거
+                        #                 weekdays_list.append(week_days_text)
+
+                        #         else:
+                        #             print("유효한 요소가 없습니다.")
+
+                        #     except Exception as e:
+                        #         log_message(f"[ERROR] 요소 로딩 중 오류 발생: {e}")
+
+                        #대표번호 정보 추출
+                        if phone_div is None:
+                            print("대표번호 정보 없음")
+                            phoneNum = ""
                         else:
-                            hours_button = hours_div.query_selector("a.gKP9i.RMgN0")  # 영업시간 <a> 태그
-                            hours_button.scroll_into_view_if_needed()
-                            hours_button.click()
-                            time.sleep(0.5)
-                            entry_frame.wait_for_selector(".w9QyJ")
-                            # entryIframe에서 .w9QyJ 클래스를 가진 모든 요소를 가져오기
-                            week_days_locator = entry_frame.locator(".w9QyJ")
+                            phone_span = phone_div.query_selector("span.xlx7Q")
+                            phoneNum = phone_span.inner_text() if phone_span else ""
 
-                            try:
-                                # .w9QyJ 요소들 가져오기
-                                week_days_elements = week_days_locator.all()
+                        # 대표 홈페이지 정보 추출
+                        if homepage_div is None:
+                            print("대표 홈페이지 정보 없음")
+                            homepage = ""
+                        else:
+                            homepage_a = homepage_div.query_selector("a.place_bluelink.CHmqa[role='button']")
+                            homepage = homepage_a.inner_text() if homepage_a else ""
 
-                                # .vI8SM 클래스가 없는 .w9QyJ 요소만 필터링
-                                valid_week_days_elements = [element for element in week_days_elements if "vI8SM" not in element.get_attribute('class')]
-
-                                # 유효한 .w9QyJ 요소가 있다면 모든 요소를 처리
-                                if valid_week_days_elements:
-
-                                    # 각 요소를 반복하면서 처리
-                                    for element in valid_week_days_elements:
-                                        week_days_text = element.inner_text()  # 각 요소의 텍스트 가져오기
-                                        week_days_text = week_days_text.replace('\xa0', ' ') # &nbsp를 일반공백으로 변경
-                                        week_days_text = week_days_text.replace("접기", "") # '접기' 제거
-                                        weekdays_list.append(week_days_text)
-
-                                else:
-                                    print("유효한 요소가 없습니다.")
-
-                            except Exception as e:
-                                log_message(f"[ERROR] 요소 로딩 중 오류 발생: {e}")
-
-                            # 대표번호 정보 추출
-                            if phone_div is None:
-                                print("대표번호 정보 없음")
-                                phoneNum = ""
-                            else:
-                                phone_span = phone_div.query_selector("span.xlx7Q")
-                                phoneNum = phone_span.inner_text() if phone_span else ""
-
-                            # 대표 홈페이지 정보 추출
-                            if homepage_div is None:
-                                print("대표 홈페이지 정보 없음")
-                                homepage = ""
-                            else:
-                                homepage_a = homepage_div.query_selector("a.place_bluelink.CHmqa[role='button']")
-                                homepage = homepage_a.inner_text() if homepage_a else ""
-
-                            # 추가 데이터를 script에서 긁어옴
-                            extra_info = fetch_data(place_id)
+                        # 추가 데이터를 script에서 긁어옴
+                        extra_info = fetch_data(place_id)
 
 
                     except Exception as e:
@@ -481,8 +489,8 @@ def process_tab():
                         "direction" : direct,
                         "latitude": extra_info.get("lat", None),
                         "longitude": extra_info.get("lng", None),
-                        "thumbnail": direct_shorten(img_urls[0]),
-                        "weekdays" : weekdays_list,
+                        "thumbnail": direct_shorten(thumbnail),
+                        #"weekdays" : None,
                         "homepage" : homepage,
                         "phone": phoneNum,
                         "create_dt" : datetime.now(pytz.timezone('Asia/Seoul')).isoformat(),
@@ -492,7 +500,7 @@ def process_tab():
                     })
 
                     page.go_back()
-                    page.wait_for_timeout(2000)
+                    page.wait_for_timeout(500)
 
                     page.wait_for_selector("iframe#searchIframe")
                     search_frame = None
@@ -532,13 +540,3 @@ if __name__ == "__main__":
     # 실행 시간 출력
     end_time = time.time()
     print(f"Execution time: {end_time - start_time:.2f} seconds")        
-
-    # JSON 파일로 저장
-    """
-    try:
-        with open("result_data.json", "w", encoding="utf-8") as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
-        print("[INFO] 결과가 result_data.json 파일에 저장되었습니다.")
-    except Exception as e:
-        print(f"[ERROR] 결과 저장 중 오류 발생: {e}")
-    """
